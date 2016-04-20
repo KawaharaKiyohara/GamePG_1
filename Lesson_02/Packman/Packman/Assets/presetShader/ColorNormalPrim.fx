@@ -108,7 +108,7 @@ float4 PSMainShadow( VS_OUTPUTShadow In, uniform bool isIuminance ) : COLOR0
 	}
 	float depth = ( posInLVP.z - g_farNear.y ) / (g_farNear.x - g_farNear.y);	
 
-	if( depth > shadow_val){
+	if( depth > shadow_val + 0.005f){
 		//‰e‚É‚È‚Á‚Ä‚¢‚éB
 		diffuse = 0.0f;
 	}

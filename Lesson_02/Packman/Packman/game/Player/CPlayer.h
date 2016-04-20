@@ -52,6 +52,7 @@ private:
 	tkEngine::CIDMapModel	m_idMapModel;
 	CVector3				m_position;
 	tkEngine::CShadowModel	m_shadowModel;	//!<シャドウマップへの書き込み用のモデル。
+	CVector3				m_moveSpeed;	//!<移動速度。
 };
 
 #endif 

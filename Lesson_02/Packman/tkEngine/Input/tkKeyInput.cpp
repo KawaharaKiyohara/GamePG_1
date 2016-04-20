@@ -50,7 +50,6 @@ namespace tkEngine{
 		}
 		if ((GetAsyncKeyState('A') & 0x8000) | (GetAsyncKeyState('a') & 0x8000) ) {
 			m_keyPressFlag[enKeyA] = true;
-			MessageBox(NULL, "Aƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚æI", "¬Œ÷", MB_OK);
 		}
 		else {
 			m_keyPressFlag[enKeyA] = false;

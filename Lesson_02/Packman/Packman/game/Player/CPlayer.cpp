@@ -11,6 +11,7 @@
  */
 void CPlayer::Start() 
 {
+	m_moveSpeed.Set(0.0f, 0.0f, 0.0f);
 }
 /*!
 *@brief	Update関数が実行される前に呼ばれる更新関数。
@@ -40,22 +41,31 @@ void CPlayer::Update()
 */
 void CPlayer::Move()
 {
-	float moveSpeed = 0.02f;		//移動速度。
+	m_moveSpeed.x = 0.02f;		//XZ平面での移動速度。
+	m_moveSpeed.z = 0.02f;
 	if (KeyInput().IsAPress()) {
-		moveSpeed *= 2.0f;			//キーボードのAが押されていたら速度を倍にする。
+		//キーボードのAが押されていたら速度を倍にする。
+		m_moveSpeed.x *= 2.0f;
+		m_moveSpeed.z *= 2.0f;
+		m_moveSpeed.y = 0.1f;
 	}
+	//Y方向への移動速度。
 	if (KeyInput().IsUpPress()) {
-		m_position.z += moveSpeed;
+		m_position.z += m_moveSpeed.z;
 	}
 	if (KeyInput().IsDownPress()) {
-		m_position.z -= moveSpeed;
+		m_position.z -= m_moveSpeed.z;
 	}
 	if (KeyInput().IsRightPress()) {
-		m_position.x += moveSpeed;
+		m_position.x += m_moveSpeed.x;
 	}
 	if (KeyInput().IsLeftPress()) {
-		m_position.x -= moveSpeed;
+		m_position.x -= m_moveSpeed.x;
 	}
+	m_position.y += m_moveSpeed.y;
+
+	//重力とかは考えない。
+	m_moveSpeed.y -= 0.01f;
 }
 /*!
  *@brief	描画処理。60fpsなら16ミリ秒に一度。30fpsなら32ミリ秒に一度呼ばれる。

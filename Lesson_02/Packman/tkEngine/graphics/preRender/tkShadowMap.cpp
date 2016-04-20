@@ -50,7 +50,7 @@ namespace tkEngine{
 	{
 		Release();
 		m_near = 1.0f;
-		m_far = 100.0f;
+		m_far = 10.0f;
 		m_shadowMapRT.Create( w, h, 1, FMT_A8R8G8B8, FMT_D16, MULTISAMPLE_NONE, 0 );
 		m_isEnable = true;
 		m_pShadowMapEffect = CEngine::EffectManager().LoadEffect( "Assets/presetshader/shadowMap.fx" );
@@ -99,6 +99,7 @@ namespace tkEngine{
 			CRenderTarget* pRTBackup = renderContext.GetRenderTarget(0);
 			renderContext.SetRenderTarget( 0, &m_shadowMapRT );
 			renderContext.Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,0xffffffff, 1.0f, 0);
+			//renderContext.SetRenderState(RS_CULLMODE, CULL_CW);	//”w–Ê‚ð•`‰æ‚·‚éB
 			//renderContext.Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0, 1.0f, 0);
 			m_pShadowMapEffect->SetTechnique( renderContext, "RenderShadowMap" );
 			m_pShadowMapEffect->Begin(renderContext);
@@ -114,7 +115,7 @@ namespace tkEngine{
 			m_pShadowMapEffect->End(renderContext);
 			renderContext.SetRenderTarget( 0, pRTBackup );
 			m_shadowModels.clear();
-			
+			//renderContext.SetRenderState(RS_CULLMODE, CULL_CCW);
 		}
 	}
 }
