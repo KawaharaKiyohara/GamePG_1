@@ -31,11 +31,11 @@ namespace tkEngine {
 			m_pPrimitive = new CPrimitive;
 			m_pPrimitive->Create(
 				CPrimitive::eTriangleList,
-				vertexBuffer.size(),
+				(int)vertexBuffer.size(),
 				sizeof(SShapeVertex_PNC),
 				scShapeVertex_PNC_Element,
 				&vertexBuffer.at(0),
-				indexBuffer.size(),
+				(int)indexBuffer.size(),
 				eIndexFormat32,
 				&indexBuffer.at(0)
 				);
@@ -51,11 +51,11 @@ namespace tkEngine {
 			m_pPrimitive = new CPrimitive;
 			m_pPrimitive->Create(
 				CPrimitive::eTriangleList,
-				vertexBuffer.size(),
+				s_cast<int>(vertexBuffer.size()),
 				sizeof(SShapeVertex_PC),
 				scShapeVertex_PC_Element,
 				&vertexBuffer.at(0),
-				indexBuffer.size(),
+				s_cast<int>(indexBuffer.size()),
 				eIndexFormat32,
 				&indexBuffer.at(0)
 			);

@@ -85,13 +85,22 @@ namespace tkEngine{
 		 */
 		void Init(LPDIRECT3DDEVICE9 pD3DDevice, int commandBufferSize);
 		/*!
-		 *@brief	レンダリングコマンドを追加
+		 *@brief	32byteのレンダリングコマンドを追加
 		 */
 		template<class T>
 		void SetRenderCommand( T& command )
 		{
 			static_assert( sizeof(T) <= 32, "command size is over 32byte" );
 			m_commandBuffer.WriteCommand32( command );
+		}
+		/*!
+		*@brief	64byteのレンダリングコマンドを追加
+		*/
+		template<class T>
+		void SetRenderCommand64(T& command)
+		{
+			static_assert(sizeof(T) <= 64, "command size is over 64byte");
+			m_commandBuffer.WriteCommand64(command);
 		}
 		/*!
 		 *@brief	コマンドバッファをサブミット

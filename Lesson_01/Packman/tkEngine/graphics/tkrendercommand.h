@@ -309,7 +309,7 @@ namespace tkEngine{
 			CRenderCommandBase(eRenderCommand_EffectSetTechnique),
 			m_pEffect(pEffect)
 		{
-			int nameLen = strlen(tecName);
+			int nameLen = (int)strlen(tecName);
 			m_tecName = s_cast<char*>(renderContext.AllocFromCommandBuffer(nameLen + 1));
 			memcpy(m_tecName, tecName, nameLen + 1);
 		}
@@ -420,7 +420,7 @@ namespace tkEngine{
 			m_pTex(tex),
 			m_pEffect(pEffect)
 		{
-			int nameLen = strlen(parameterName);
+			int nameLen = (int)strlen(parameterName);
 			m_textureName = s_cast<char*>(renderContext.AllocFromCommandBuffer(nameLen + 1));
 			memcpy(m_textureName, parameterName, nameLen + 1);
 		}

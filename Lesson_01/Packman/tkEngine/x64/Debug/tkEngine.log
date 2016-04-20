@@ -1,2 +1,4 @@
-﻿  tkEngine.cpp
-c:\users\localuser\documents\github\programing\packman\tkengine\tkengine.cpp(4): fatal error C1083: include ファイルを開けません。'tkEngine/tkEnginePreCompile.h':No such file or directory
+﻿  tkKeyInput.cpp
+d3d9.lib(d3d9.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR は d3dx9.lib(d3dx9_43.dll) で定義されています。2 つ目以降の定義は無視されます。
+d3d9.lib(d3d9.dll) : warning LNK4221: このオブジェクト ファイルは、以前に未定義であったパブリック シンボルを定義していないため、このライブラリを使用するリンク操作では使用されません
+  tkEngine.vcxproj -> C:\Users\localuser\Documents\GitHub\GamePG_1\Lesson_01\Packman\x64\Debug\tkEngine.lib
