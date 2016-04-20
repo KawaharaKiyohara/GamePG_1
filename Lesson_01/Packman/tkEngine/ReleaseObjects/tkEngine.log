@@ -1,0 +1,30 @@
+﻿  tkEnginePreCompile.cpp
+  tkGameObject.cpp
+  tkgameobjectmanager.cpp
+  tkBloomRender.cpp
+  tkEdgeRender.cpp
+  tkPostEffect.cpp
+  tkIDMap.cpp
+  tkPreRender.cpp
+  tkShadowMap.cpp
+  tkCamera.cpp
+  tkEffect.cpp
+  tkEffectManager.cpp
+  tkIndexBuffer.cpp
+  tkMaterial.cpp
+  tkPrimitive.cpp
+  tkRenderCommandBuffer.cpp
+  tkRenderContext.cpp
+  tkRenderTarget.cpp
+  tkVertexBuffer.cpp
+  tkKeyInput.cpp
+  tkMath.cpp
+  コンパイル中...
+  tkMatrix.cpp
+  tkVector.cpp
+  tkBoxShape.cpp
+  tkShapeBase.cpp
+  tkSphereShape.cpp
+  tkEngine.cpp
+d3d9.lib(d3d9.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR は d3dx9.lib(d3dx9_43.dll) で定義されています。2 つ目以降の定義は無視されます。
+  tkEngine.vcxproj -> C:\Users\localuser\Documents\GitHub\Programing\Packman\Release\tkEngine.lib
