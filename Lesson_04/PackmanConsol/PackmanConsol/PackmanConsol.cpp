@@ -256,7 +256,7 @@ int main()
 			walls[i].Draw();
 		}
 		//プレーヤーの描画処理。
-		player.Draw();
+		g_player.Draw();
 		//フレームバッファの内容を画面に表示する。
 		for (int i = 0; i < MAP_HEIGHT; i++) {
 			for (int j = 0; j < MAP_WIDTH; j++) {
