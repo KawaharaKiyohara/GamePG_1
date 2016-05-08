@@ -179,12 +179,6 @@ public:
 		//プレイヤーの座標はg_player.GetPositionX()とg_player.GetPositionY()で取得できる。
 		//例えばプレイヤーのX座標が欲しいならこんな感じ。
 		//int pos_x = g_player.GetPositionX();
-		if (g_player.GetPositionX() == m_posX
-			&& g_player.GetPositionY() == m_posY
-		) {
-			//プレイヤーと座標が重なった。
-			m_isDead = true;		//死亡フラグを立てる。
-		}
 	}
 };
 /*!
