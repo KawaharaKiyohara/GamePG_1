@@ -1,0 +1,34 @@
+﻿  tkEnginePreCompile.cpp
+  tkEngine.cpp
+  tkSphereShape.cpp
+  tkShapeBase.cpp
+  tkBoxShape.cpp
+  tkVector.cpp
+  tkMatrix.cpp
+  tkMath.cpp
+  tkKeyInput.cpp
+  tkVertexBuffer.cpp
+  tkRenderTarget.cpp
+  tkRenderContext.cpp
+  tkRenderCommandBuffer.cpp
+  tkPrimitive.cpp
+  tkMaterial.cpp
+  tkIndexBuffer.cpp
+  tkEffectManager.cpp
+c:\github\gamepg_1\lesson_09\packman\tkengine\util\tkutil.h(16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  tkEffect.cpp
+  tkCamera.cpp
+  tkShadowMap.cpp
+  tkPreRender.cpp
+  tkIDMap.cpp
+  Generating Code...
+  Compiling...
+  tkPostEffect.cpp
+  tkEdgeRender.cpp
+  tkBloomRender.cpp
+  tkgameobjectmanager.cpp
+  tkGameObject.cpp
+  Generating Code...
+d3d9.lib(d3d9.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3dx9.lib(d3dx9_43.dll); second definition ignored
+d3d9.lib(d3d9.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+  tkEngine.vcxproj -> C:\GitHub\GamePG_1\Lesson_09\Packman\x64\Debug\tkEngine.lib
