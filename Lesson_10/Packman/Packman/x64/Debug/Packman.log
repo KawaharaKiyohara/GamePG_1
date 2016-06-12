@@ -1,0 +1,72 @@
+﻿  TestSphereRender.cpp
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(315): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(426): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercontext.h(105): error C2338: command size is over 32byte
+  c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkeffect.h(44): note: see reference to function template instantiation 'void tkEngine::CRenderContext::SetRenderCommand<tkEngine::CRenderCommand_EffectSetValue>(T &)' being compiled
+          with
+          [
+              T=tkEngine::CRenderCommand_EffectSetValue
+          ]
+  TestPrimitiveRender.cpp
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(315): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(426): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercontext.h(105): error C2338: command size is over 32byte
+  c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkeffect.h(44): note: see reference to function template instantiation 'void tkEngine::CRenderContext::SetRenderCommand<tkEngine::CRenderCommand_EffectSetValue>(T &)' being compiled
+          with
+          [
+              T=tkEngine::CRenderCommand_EffectSetValue
+          ]
+  TestCreateRenderTarget.cpp
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(315): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(426): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  TestBoxRender.cpp
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(315): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(426): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercontext.h(105): error C2338: command size is over 32byte
+  c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkeffect.h(44): note: see reference to function template instantiation 'void tkEngine::CRenderContext::SetRenderCommand<tkEngine::CRenderCommand_EffectSetValue>(T &)' being compiled
+          with
+          [
+              T=tkEngine::CRenderCommand_EffectSetValue
+          ]
+  Test.cpp
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(315): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(426): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercontext.h(105): error C2338: command size is over 32byte
+  c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkeffect.h(44): note: see reference to function template instantiation 'void tkEngine::CRenderContext::SetRenderCommand<tkEngine::CRenderCommand_EffectSetValue>(T &)' being compiled
+          with
+          [
+              T=tkEngine::CRenderCommand_EffectSetValue
+          ]
+  stdafx.cpp
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(315): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(426): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  main.cpp
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(315): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(426): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  CPlayer.cpp
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(315): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(426): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\packman\game\player\cplayer.cpp(47): error C2039: 'IsAPress': is not a member of 'tkEngine::CKeyInput'
+  c:\github\gamepg_1\lesson_10\packman\tkengine\input\tkkeyinput.h(9): note: see declaration of 'tkEngine::CKeyInput'
+  CWall.cpp
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(315): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(426): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercontext.h(105): error C2338: command size is over 32byte
+  c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkeffect.h(44): note: see reference to function template instantiation 'void tkEngine::CRenderContext::SetRenderCommand<tkEngine::CRenderCommand_EffectSetValue>(T &)' being compiled
+          with
+          [
+              T=tkEngine::CRenderCommand_EffectSetValue
+          ]
+  CMapBuilder.cpp
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(315): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(426): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  CGround.cpp
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(315): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercommand.h(426): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkrendercontext.h(105): error C2338: command size is over 32byte
+  c:\github\gamepg_1\lesson_10\packman\tkengine\graphics\tkeffect.h(44): note: see reference to function template instantiation 'void tkEngine::CRenderContext::SetRenderCommand<tkEngine::CRenderCommand_EffectSetValue>(T &)' being compiled
+          with
+          [
+              T=tkEngine::CRenderCommand_EffectSetValue
+          ]
+  CFood.cpp
