@@ -95,7 +95,7 @@ namespace tkEngine{
 				m_frameBufferWidth,
 				m_frameBufferHeight,
 				1,
-				FMT_A8R8G8B8,
+				FMT_A16B16G16R16,
 				FMT_D16,
 				MULTISAMPLE_NONE,
 				0
