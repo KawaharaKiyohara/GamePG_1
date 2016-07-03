@@ -18,7 +18,7 @@ void UnityChan::Start()
 	skinModel.SetLight(&light);
 	skinModel.SetNormalMap(&normalMap);
 
-	camera.SetPosition(CVector3(0.0f, 1.5f, 4.0f));
+	camera.SetPosition(CVector3(0.0f, 1.0f, 2.0f));
 	camera.SetTarget(CVector3(0.0f, 0.5f, 0.0f));
 
 	camera.SetFar(1000.0f);
@@ -54,9 +54,11 @@ void UnityChan::Update()
 	}
 	camera.Update();
 
+	CVector3 rotAxis(-1.0f, 1.0f, 0.0f);
+	rotAxis.Normalize();
 	//UnityÇøÇ·ÇÒÇâÒÇ∑ÅB
-	CQuaternion qRot;
-	qRot.SetRotation(CVector3::AxisY, CMath::DegToRad(120.0f));
+	CQuaternion qRot = CQuaternion::Identity;
+	qRot.SetRotation(rotAxis, CMath::DegToRad(-90.0f));
 	
 	skinModel.UpdateWorldMatrix(position, qRot, CVector3::One);
 	if (KeyInput().IsTrgger(CKeyInput::enKeyA)) {
