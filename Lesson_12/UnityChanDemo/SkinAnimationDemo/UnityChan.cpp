@@ -8,6 +8,10 @@ extern CCamera*			g_camera;				//カメラ。
  */
 void UnityChan::Start()
 {
+	rotation.x = 0.0f;
+	rotation.y = 0.0f;
+	rotation.z = 0.0f;
+	rotation.w = 1.0f;
 	skinModelData.LoadModelData("Assets/modelData/Unity.X", &animation);
 	normalMap.Load("Assets/modelData/utc_nomal.tga");
 	//座標を初期化。
@@ -46,21 +50,31 @@ void UnityChan::Update()
 	//アニメーション再生のサンプルコード。
 	animation.Update(1.0f / 60.0f);
 	static float angle = 0.0f;
+	int nextAnimNo = AnimationStand;
+	CQuaternion qAdd = CQuaternion::Identity;
 	if (KeyInput().IsRightPress()) {
-		angle += 0.01f;
+		qAdd.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(-1.0f));
 	}
 	else if (KeyInput().IsLeftPress()) {
-		angle -= 0.01;
+		qAdd.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(1.0f));
+	}
+	else if (KeyInput().IsUpPress()) {
+		qAdd.SetRotation(CVector3(1.0f, 0.0f, 0.0f), CMath::DegToRad(1.0f));
+	}
+	else if (KeyInput().IsDownPress()) {
+		qAdd.SetRotation(CVector3(1.0f, 0.0f, 0.0f), CMath::DegToRad(-1.0f));
+	}
+	if (nextAnimNo != currentAnimSetNo) {
+		currentAnimSetNo = nextAnimNo;
+		animation.PlayAnimation(nextAnimNo, 0.2f);
 	}
 	camera.Update();
 
 	CVector3 rotAxis(-1.0f, 1.0f, 0.0f);
 	rotAxis.Normalize();
 	//Unityちゃんを回す。
-	CQuaternion qRot = CQuaternion::Identity;
-	qRot.SetRotation(rotAxis, CMath::DegToRad(-90.0f));
-	
-	skinModel.UpdateWorldMatrix(position, qRot, CVector3::One);
+	rotation.Multiply(rotation, qAdd);
+	skinModel.UpdateWorldMatrix(position, rotation, CVector3(1.0f, 1.0f, 1.0f));
 	if (KeyInput().IsTrgger(CKeyInput::enKeyA)) {
 		currentAnimSetNo++;
 		currentAnimSetNo %= animation.GetNumAnimationSet();
