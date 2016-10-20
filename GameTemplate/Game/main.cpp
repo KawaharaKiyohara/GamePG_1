@@ -16,7 +16,7 @@ PhysicsWorld* g_physicsWorld = NULL;
 Player* g_player = NULL;
 CRandom g_random;
 DamageCollisionWorld* g_damageCollisionWorld = NULL;
-//#define MEMORY_LEAK_TEST		//定義でメモリリークテストが有効になる。
+#define MEMORY_LEAK_TEST		//定義でメモリリークテストが有効になる。
 
 #ifdef MEMORY_LEAK_TEST
 //メモリリークテスト。
@@ -47,6 +47,9 @@ public:
 		//スキンありインスタンシングモデル。
 		CSkinModelDataHandle skinModelInstancing;
 		SkinModelDataResources().Load(skinModelInstancing, "Assets/modelData/Unity.X", NULL, true, 10);
+		if (GetAsyncKeyState('A')) {
+			MessageBox(NULL, "Player::Update", "メッセージ", MB_OK );
+		}
 	}
 	void Render(CRenderContext& renderContext) override
 	{
@@ -135,6 +138,7 @@ int WINAPI wWinMain(
 	g_player->SetPosition(CVector3(-10.0f, 4.5f, 0.0f));
 	g_camera->SetPlayer(g_player);
 #endif
+	
 	Engine().RunGameLoop();		//ゲームループを実行。
 
 	return 0;
