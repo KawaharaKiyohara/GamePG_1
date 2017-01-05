@@ -14,11 +14,20 @@ namespace tkEngine {
 	class CRenderContext;
 	class CLight;
 	class CShadowMap;
+	struct SAtmosphericScatteringParam;
+	//フォグ。
 	enum EFogFunc {
 		enFogFuncNone,		//フォグなし。
 		enFogFuncDist,		//距離フォグ。
 		enFogFuncHeight,	//高さフォグ。
 		enFogFuncNum,
+	};
+	//大気錯乱シミュレーション
+	enum EAtomosphereFunc {
+		enAtomosphereFuncNone,						//大気錯乱シミュレーションなし。
+		enAtomosphereFuncObjectFromAtomosphere,		//オブジェクトを大気圏から見た場合の大気錯乱シミュレーション。
+		enAtomosphereFuncSkyFromAtomosphere,		//空を大気圏から見た場合の大気錯乱シミュレーション。
+		enAtomosphereFuncNum,
 	};
 	/*!
 	*@brief	スキンモデル
@@ -66,6 +75,13 @@ namespace tkEngine {
 		void SetLight(CLight* light)
 		{
 			m_light = light;
+		}
+		/*!
+		*@brief	速度マップへの書き込みフラグを設定。
+		*/
+		void SetWriteVelocityMap(bool flag)
+		{
+			m_isWriteVelocityMap = flag;
 		}
 		/*!
 		*@brief	法線マップの保持フラグを設定。
@@ -126,6 +142,17 @@ namespace tkEngine {
 			m_fogFunc = fogFunc;
 			m_fogParam[0] = param0;
 			m_fogParam[1] = param1;
+		}
+		/*!
+		* @brief	大気錯乱シミュレーションの種類を設定。。
+		*@param[in]	func		大気錯乱シミュレーションの種類。EAtomosphereFuncを参照。
+		*@param[in]	param		大気錯乱シミュレーションで使用するパラメータ。
+		*/
+		void SetAtomosphereParam( EAtomosphereFunc func, const SAtmosphericScatteringParam& param)
+		{
+			TK_ASSERT(func < enAtomosphereFuncNum, "func is invalid");
+			m_atomosphereFunc = func;
+			m_atomosphereParam = &param;
 		}
 		/*!
 		* @brief	ワールド行列を取得。
@@ -193,21 +220,24 @@ namespace tkEngine {
 		void DrawToShadowMap(CRenderContext& renderContext, const CMatrix& viewMatrix, const CMatrix& projMatrix);
 	private:
 		enum EnShaderHandle {
-			enShaderHandleViewProj,			//ビュープロジェクション。
-			enShaderHandleLight,			//ライト。
-			enShaderHandleLVP,				//ライトビュープロジェクション行列。
-			enShaderHandleCameraPos,		//カメラの位置。
-			enShaderHandleFlags,			//g_flags
-			enShaderHandleFarNear,			//FarNear
-			enShaderHandleFogParam,			//Fogパラメータ。
-			enShaderHandleWorldMatrixArray,	//ボーン行列
-			enShaderHandleNumBone,			//ボーンの数。
-			enShaderHandleCurNumBones,		//スキングを行なうボーンの数。
-			enShaderHandleViewMatrixRotInv,	//ビュー行列の回転成分の逆行列。
-			enShaderHandleWorldMatrix,		//ワールド行列
-			enShaderHandleRotationMatrix,	//回転行列。
-			enShaderHandleShadowMap_0,		//シャドウマップ
-			enShaderHandleShadowMap_1,		//シャドウマップ
+			enShaderHandleLastFrameViewProj,	//1フレーム前のビュープロジェクション。	
+			enShaderHandleViewProj,				//ビュープロジェクション。	
+			enShaderHandleLight,				//ライト。
+			enShaderHandleLVP,					//ライトビュープロジェクション行列。
+			enShaderHandleCameraPos,			//カメラの位置。
+			enShaderHandleAtmosParam,			//大気錯乱パラメータ。
+			enShaderHandleFlags,				//g_flags
+			enShaderHandleFlags2,				//g_flags2
+			enShaderHandleFarNear,				//FarNear
+			enShaderHandleFogParam,				//Fogパラメータ。
+			enShaderHandleWorldMatrixArray,		//ボーン行列
+			enShaderHandleNumBone,				//ボーンの数。
+			enShaderHandleCurNumBones,			//スキングを行なうボーンの数。
+			enShaderHandleViewMatrixRotInv,		//ビュー行列の回転成分の逆行列。
+			enShaderHandleWorldMatrix,			//ワールド行列
+			enShaderHandleRotationMatrix,		//回転行列。
+			enShaderHandleShadowMap_0,			//シャドウマップ
+			enShaderHandleShadowMap_1,			//シャドウマップ
 			enShaderHandleShadowMap_2,		//シャドウマップ
 			enShaderHandleNormalTexture,	//法線マップ。
 			enShaderHandleSpeculerMap,		//スペキュラマップ。
@@ -222,6 +252,7 @@ namespace tkEngine {
 			enShaderHandleTec_SkinModel,								//SkinModelテクニック。
 			enShaderHandleTec_NoSkinModelRenderShadowMap,				//NoSkinModelRenderShadowMapテクニック。
 			enShaderHandleTec_NoSkinModel,								//NoSkinModelテクニック。
+			enShaderHandleTec_Sky,										//Skyテクニック。
 			enShaderHandleNum,				//シェーダーハンドルの数。
 		};
 		CMatrix							m_worldMatrix;		//!<ワールド行列。
@@ -242,6 +273,9 @@ namespace tkEngine {
 		D3DXHANDLE						m_hShaderHandle[enShaderHandleNum];	//!<シェーダーハンドル。
 		bool							m_hasNormalMap;						//!<法線マップを保持している？
 		bool							m_hasSpecMap;						//!<スペきゅらマップを保持している？
+		bool							m_isWriteVelocityMap = true;		//!<速度マップに書き込む？
+		EAtomosphereFunc					m_atomosphereFunc = enAtomosphereFuncNone;	//!<大気錯乱シミュレーションの種類。
+		const SAtmosphericScatteringParam*	m_atomosphereParam = nullptr;			//!<大気錯乱シミュレーションで使用するパラメータ。
 	};
 }
 

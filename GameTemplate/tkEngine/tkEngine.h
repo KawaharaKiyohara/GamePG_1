@@ -18,6 +18,9 @@
 #include "tkEngine/Sound/tkSoundEngine.h"
 #include "tkEngine/Physics/tkPhysics.h"
 
+/*!
+* @brief	河原内製ゲームエンジン。
+*/
 namespace tkEngine{
 	class CReflectionMap;
 	/*!
@@ -191,6 +194,13 @@ namespace tkEngine{
 			return m_postEffect.GetDof();
 		}
 		/*!
+		* @brief	モーションブラーを取得。
+		*/
+		CMotionBlur& GetMotionBlur()
+		{
+			return m_postEffect.GetMotionBlur();
+		}
+		/*!
 		* @brief	スキンモデルリソースを取得。
 		*/
 		CSkinModelDataResources& GetSkinModelDataResources()
@@ -211,6 +221,7 @@ namespace tkEngine{
 		{
 			return m_physicsWorld;
 		}
+		
 	private:
 		/*!
 		* @brief	メインレンダリングターゲットの内容をバックバッファにコピー。
@@ -240,6 +251,7 @@ namespace tkEngine{
 		HWND									m_hWnd;						//!<ウィンドウハンドル。
 		LPDIRECT3D9								m_pD3D;						//!<D3DDevice
 		LPDIRECT3DDEVICE9						m_pD3DDevice;				//!<Rendering device
+		LPDIRECT3DDEVICE9						m_pD3DDeviceLoading;		//!<ローディング画面で使用するRenderingDevice
 		std::unique_ptr<CRenderContext[]>		m_renderContextArray;		//!<レンダリングコンテキスト
 		int										m_numRenderContext;			//!<レンダリングコンテキストの数。
 		std::unique_ptr<SRenderContextMap[]>	m_renderContextMap;			//!<レンダリングコンテキストのマップ。
@@ -297,6 +309,10 @@ namespace tkEngine{
 	static inline CDof& Dof()
 	{
 		return CEngine::Instance().GetDof();
+	}
+	static inline CMotionBlur& MotionBlur()
+	{
+		return CEngine::Instance().GetMotionBlur();
 	}
 	static inline CSkinModelDataResources& SkinModelDataResources()
 	{

@@ -14,6 +14,7 @@ namespace tkEngine{
 	 */
 	CEffectManager::CEffectManager()
 	{
+		
 	}
 	/*!
 	 * @brief	デストラクタ。
@@ -21,6 +22,25 @@ namespace tkEngine{
 	CEffectManager::~CEffectManager()
 	{
 		Release();
+	}
+	/*!
+	*@brief	常駐エフェクトファイルのロード。
+	*/
+	void CEffectManager::LoadCommonEffect()
+	{
+		//プリセットシェーダーは全て最初に読み込む。
+		LoadEffect("Assets/presetShader/skinModel.fx");
+		LoadEffect("Assets/presetShader/bloom.fx");
+		LoadEffect("Assets/presetshader/idMap.fx");
+		LoadEffect("Assets/presetShader/fxaa.fx");
+		LoadEffect("Assets/presetShader/motionBlur.fx");
+		LoadEffect("Assets/presetshader/shadowMap.fx");
+		LoadEffect("Assets/presetShader/sprite.fx");
+		LoadEffect("Assets/presetShader/TransformedPrim.fx");
+		LoadEffect("Assets/presetShader/TransformedPrim.fx");
+		LoadEffect("Assets/presetShader/ColorTexPrim.fx");
+		LoadEffect("Assets/presetShader/ColorNormalPrim.fx");
+		LoadEffect("Assets/presetShader/TransformedPrim.fx");
 	}
 	/*!
 	 *@brief	エフェクトのロード。
@@ -46,7 +66,7 @@ namespace tkEngine{
 				filePath,
 				NULL,
 				NULL,
-#ifdef _DEBUG
+#if BUILD_LEVEL != BUILD_LEVEL_MASTER
 				D3DXSHADER_DEBUG,
 #else
 				D3DXSHADER_SKIPVALIDATION,
@@ -63,6 +83,9 @@ namespace tkEngine{
 			pEffect = new CEffect(effect);
 			std::pair<int, CEffect*> node(hash, pEffect);
 			m_effectDictinary.insert(node);
+#if BUILD_LEVEL != BUILD_LEVEL_MASTER
+			pEffect->SetFilePath(filePath);
+#endif
 		}
 		else {
 			//登録済み。
@@ -79,5 +102,16 @@ namespace tkEngine{
 			delete p.second;
 		}
 		m_effectDictinary.clear();
+	}
+	/*!
+	* @brief	更新。
+	*/
+	void CEffectManager::Update()
+	{
+#if BUILD_LEVEL != BUILD_LEVEL_MASTER
+		for (auto p : m_effectDictinary) {
+			p.second->Update();
+		}
+#endif
 	}
 }

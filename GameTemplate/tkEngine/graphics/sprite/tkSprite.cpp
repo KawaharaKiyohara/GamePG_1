@@ -78,13 +78,22 @@ namespace tkEngine{
 		trans.Add(pivotOffset);
 
 		mTrans.MakeTranslation(trans);
+		CMatrix mRot;
+		mRot.MakeRotationFromQuaternion(m_rotation);
+		mWorld.Mul(mRot, mWorld);
 		mWorld.Mul(mWorld, mTrans);
+
+		renderContext.SetRenderState(RS_ALPHABLENDENABLE, TRUE);
+		renderContext.SetRenderState(RS_SRCBLEND, BLEND_SRCALPHA);
+		renderContext.SetRenderState(RS_DESTBLEND, BLEND_INVSRCALPHA);
 
 		m_effect->Begin(renderContext);
 		m_effect->BeginPass(renderContext, 0);
 		m_effect->SetTechnique(renderContext, "SpriteTexture");
 		m_effect->SetValue(renderContext, "mWorld", &mWorld, sizeof(mWorld));
 		m_effect->SetTexture(renderContext, "g_tex", m_texture);
+		m_effect->SetValue(renderContext, "uvRect", &m_uvRect, sizeof(m_uvRect));
+		m_effect->SetValue(renderContext, "alpha", &m_alpha, sizeof(m_alpha));
 		m_effect->CommitChanges(renderContext);
 		renderContext.SetVertexDeclaration(m_primitive.GetVertexDecl());
 		renderContext.SetStreamSource(0, m_primitive.GetVertexBuffer());
@@ -92,5 +101,7 @@ namespace tkEngine{
 		renderContext.DrawIndexedPrimitive(&m_primitive);
 		m_effect->EndPass(renderContext);
 		m_effect->End(renderContext);
+
+		renderContext.SetRenderState(RS_ALPHABLENDENABLE, FALSE);
 	}
 }

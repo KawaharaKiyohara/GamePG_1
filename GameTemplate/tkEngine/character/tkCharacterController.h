@@ -19,7 +19,7 @@ namespace tkEngine{
 		}
 		~CCharacterController()
 		{
-
+			RemoveRigidBoby();
 		}
 		/*!
 		 * @brief	初期化。
@@ -73,6 +73,13 @@ namespace tkEngine{
 			return m_isJump;
 		}
 		/*!
+		* @brief	地面上にいるか判定。
+		*/
+		bool IsOnGround() const
+		{
+			return m_isOnGround;
+		}
+		/*!
 		* @brief	コライダーを取得。
 		*/
 		CCapsuleCollider* GetCollider()
@@ -85,6 +92,13 @@ namespace tkEngine{
 		void SetGravity(float gravity)
 		{
 			m_gravity = gravity;
+		}
+		/*!
+		* @brief	剛体を取得。
+		*/
+		CRigidBody* GetRigidBody()
+		{
+			return &m_rigidBody;
 		}
 		/*!
 		* @brief	剛体を物理エンジンから削除。。
