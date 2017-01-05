@@ -15,6 +15,7 @@
 #include "tkEngine/graphics/tkGraphicsConfig.h"
 #include "tkEngine/particle/tkParticleResources.h"
 #include "tkEngine/resource/tkSkinModelDataResources.h"
+#include "tkEngine/resource/tkTextureResources.h"
 #include "tkEngine/Sound/tkSoundEngine.h"
 #include "tkEngine/Physics/tkPhysics.h"
 
@@ -186,6 +187,14 @@ namespace tkEngine{
 		{
 			return m_particleResource;
 		}
+		CMonochromeFilter& GetMonochromeFilter()
+		{
+			return m_postEffect.GetMonochromeFilter();
+		}
+		CSepiaFilter& GetSepiaFilter()
+		{
+			return m_postEffect.GetSepiaFilter();
+		}
 		/*!
 		* @brief	DOFを取得。
 		*/
@@ -206,6 +215,13 @@ namespace tkEngine{
 		CSkinModelDataResources& GetSkinModelDataResources()
 		{
 			return m_skinModelDataResources;
+		}
+		/*!
+		* @brief	テクスチャリソースを取得。
+		*/
+		CTextureResources& GetTextureResources()
+		{
+			return m_textureResources;
 		}
 		/*!
 		* @brief	サウンドエンジンの取得。
@@ -271,6 +287,7 @@ namespace tkEngine{
 		CParticleResources						m_particleResource;			//!<パーティクルのリソース管理。
 		CFont									m_fpsFont;					//!<FPSを表示するデバッグフォント。
 		CSkinModelDataResources					m_skinModelDataResources;	//!<スキンモデルデータリソース。
+		CTextureResources						m_textureResources;			//!<テクスチャリソース。
 		CSoundEngine							m_soundEngine;				//!<サウンドエンジン。
 		CPhysicsWorld							m_physicsWorld;				//!<物理ワールド。
 	};
@@ -318,6 +335,10 @@ namespace tkEngine{
 	{
 		return CEngine::Instance().GetSkinModelDataResources();
 	}
+	static inline CTextureResources& TextureResources()
+	{
+		return CEngine::Instance().GetTextureResources();
+	}
 	static inline CSoundEngine& SoundEngine()
 	{
 		return CEngine::Instance().GetSoundEngine();
@@ -325,6 +346,14 @@ namespace tkEngine{
 	static inline CPhysicsWorld& PhysicsWorld()
 	{
 		return CEngine::Instance().GetPhysicsWorld();
+	}
+	static inline CMonochromeFilter& MonochromeFilter()
+	{
+		return CEngine::Instance().GetMonochromeFilter();
+	}
+	static inline CSepiaFilter& SepiaFilter()
+	{
+		return CEngine::Instance().GetSepiaFilter();
 	}
 }
 

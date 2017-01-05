@@ -162,7 +162,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Common\Card.cpp" />
+    <ClCompile Include="Common\CardDeck.cpp" />
+    <ClCompile Include="ICardSelect.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
     <ClCompile Include="ScreenEffect\Fade.cpp" />
@@ -174,6 +178,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Common\Card.h" />
+    <ClInclude Include="Common\CardConst.h" />
+    <ClInclude Include="Common\CardDeck.h" />
+    <ClInclude Include="ICardSelect.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Scene\TitleScene.h" />
     <ClInclude Include="ScreenEffect\Fade.h" />

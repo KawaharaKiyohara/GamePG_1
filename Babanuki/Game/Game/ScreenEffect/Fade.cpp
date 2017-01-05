@@ -44,6 +44,7 @@ void Fade::Update()
 				m_sprite.SetAlpha(0.0f);
 				SetActiveFlag(false);
 				m_timer = FADE_TIME;
+				m_isExecute = false;
 			}
 			break;
 		}

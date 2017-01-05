@@ -1,4 +1,8 @@
 #pragma once
+
+#include "Common/CardDeck.h"
+#include "Player.h"
+
 /*!
  *@brief	ゲームシーン。
  */
@@ -27,12 +31,45 @@ public:
 	 *@brief	更新関数。
 	 */
 	void Update() override;
+	void OnDestroy() override;
+	/*!
+	*@brief	カメラを取得。
+	*/
+	const CCamera& GetCamera() const
+	{
+		return camera;
+	}
+	/*!
+	*@brief	ライトを取得。
+	*/
+	CLight& GetLight() 
+	{
+		return light;
+	}
+private:
+	/*!
+	*@brief	勝敗判定。
+	*/
+	bool Judgement();
 private:
 	//初期化ステータス
 	enum EnInitState{
-		enInitState_ReqFadeIn,		//フェードインのリクエストを投げる。
-		enInitState_WaitFadeIn,		//フェードイン待ち。
+		enInitState_ReqFadeIn,		//!<フェードインのリクエストを投げる。
+		enInitState_WaitFadeIn,		//!<フェードイン待ち。
 	};
+	enum EnGameStep {
+		enGameStep_DealCards,		//!<カードを配る。
+		enGameStep_SelectPlayer,	//!<プレイヤーがカードを選択中。
+		enGameStep_SelectCom,		//!<COMがカードを選択中。
+		enGameStep_Over,			//!<終わり。
+	};
+	static const int NUM_PLAYER = 2;
 	EnInitState m_initState = enInitState_ReqFadeIn;
+	CardDeck cardDeck;				//!<カードデッキ。
+	CCamera camera;					//!<カメラ。
+	CLight  light;					//!<ライト。
+	Player  playerList[NUM_PLAYER];		//!<プレイヤーのリスト
+	EnGameStep gameStep = enGameStep_DealCards;
 };
 
+extern GameScene* g_gameScene;

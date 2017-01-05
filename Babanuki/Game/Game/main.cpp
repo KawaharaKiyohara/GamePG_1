@@ -3,7 +3,7 @@
 #include "ScreenEffect/Fade.h"
 
 Fade* g_fade = nullptr;
-
+CRandom g_random;
 /*!
  * @brief	tkEngine‚Ì‰Šú‰»B
  */
@@ -24,7 +24,7 @@ void InitTkEngine( HINSTANCE hInst )
 	initParam.frameBufferHeight = 720;
 	initParam.frameBufferWidth = 1280;
 	//Bloom
-	initParam.graphicsConfig.bloomConfig.isEnable = true;
+	initParam.graphicsConfig.bloomConfig.isEnable = false;
 	initParam.graphicsConfig.edgeRenderConfig.isEnable = false;
 	initParam.graphicsConfig.edgeRenderConfig.idMapWidth = initParam.frameBufferWidth;
 	initParam.graphicsConfig.edgeRenderConfig.idMapHeight = initParam.frameBufferHeight;
@@ -40,9 +40,11 @@ void InitTkEngine( HINSTANCE hInst )
 	initParam.graphicsConfig.reflectionMapConfig.reflectionMapWidth = 512;
 	initParam.graphicsConfig.reflectionMapConfig.reflectionMapHeight = 512;
 	//DOF
-	initParam.graphicsConfig.dofConfig.isEnable = true;
+	initParam.graphicsConfig.dofConfig.isEnable = false;
 	//AA
-	initParam.graphicsConfig.aaConfig.isEnable = true;
+	initParam.graphicsConfig.aaConfig.isEnable = false;
+	//—”‰Šú‰»B
+	g_random.Init((unsigned long)time(NULL));
 
 	Engine().Init(initParam);	//‰Šú‰»B
 	

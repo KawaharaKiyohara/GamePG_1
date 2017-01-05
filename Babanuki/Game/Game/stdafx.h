@@ -23,5 +23,6 @@ using namespace tkEngine;
 
 class Fade;
 extern Fade* g_fade;
+extern CRandom g_random;
 
 #endif // _STDAFX_H_

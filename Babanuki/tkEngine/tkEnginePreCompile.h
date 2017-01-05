@@ -49,8 +49,8 @@
 #include <xaudio2.h>
 #include <x3daudio.h>
 #include <xaudio2fx.h>
-#pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "X3DAudio.lib")
+#pragma comment(lib, "winmm.lib")
 #ifdef _DEBUG
 #include <DxErr.h>
 #pragma comment(lib, "dxerr.lib")
@@ -82,6 +82,6 @@
 #include "tkEngine/timer/tkGameTime.h"
 #include "tkEngine/graphics/sprite/tkSprite.h"
 #include "tkEngine/math/tkAabb.h"
-
+#include "tkEngine/Resource/tkTextureResources.h"
 
 // TODO: reference additional headers your program requires here

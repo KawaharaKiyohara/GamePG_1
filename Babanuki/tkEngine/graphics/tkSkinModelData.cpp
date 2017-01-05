@@ -590,8 +590,13 @@ namespace tkEngine{
 			//オリジナル。
 			DeleteSkeleton(m_frameRoot);
 		}
+		if (m_animController) {
+			m_animController->Release();
+		}
 		m_instanceVertexBuffer.Release();
 		m_numInstance = 0;
+
+		m_loadThread.join();
 	}
 	
 	void CSkinModelData::DeleteSkeleton(LPD3DXFRAME frame)
@@ -760,6 +765,7 @@ namespace tkEngine{
 	}
 	void CSkinModelData::CloneModelData(const CSkinModelData& modelData, CAnimation* anim)
 	{
+		m_original = &modelData;
 		//スケルトンの複製を作成。。
 		m_isClone = true;
 		m_frameRoot = new D3DXFRAME_DERIVED;

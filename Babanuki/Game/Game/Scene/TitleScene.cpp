@@ -30,7 +30,7 @@ void TitleScene::Update()
 		if (!g_fade->IsExecute()) {
 			//フェード終わった。
 			//ゲームシーンに遷移。
-			NewGO<GameScene>(0);
+			g_gameScene = NewGO<GameScene>(0);
 			//自分を削除。
 			DeleteGO(this);
 			return;
