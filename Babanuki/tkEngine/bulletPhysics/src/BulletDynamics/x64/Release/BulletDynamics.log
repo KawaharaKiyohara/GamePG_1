@@ -6,7 +6,7 @@ ConstraintSolver\btConeTwistConstraint.cpp(913): warning C4244: '=': conversion 
 ConstraintSolver\btConeTwistConstraint.cpp(973): warning C4244: '=': conversion from 'double' to 'btScalar', possible loss of data
 ConstraintSolver\btConeTwistConstraint.cpp(975): warning C4244: '=': conversion from 'double' to 'btScalar', possible loss of data
   btContactConstraint.cpp
-c:\github\programing\tkengine\bulletphysics\src\bulletdynamics\constraintsolver\btContactConstraint.h(25): warning C4359: 'btContactConstraint': Alignment specifier is less than actual alignment (128), and will be ignored.
+c:\github\gamepg_1\babanuki\tkengine\bulletphysics\src\bulletdynamics\constraintsolver\btContactConstraint.h(25): warning C4359: 'btContactConstraint': Alignment specifier is less than actual alignment (128), and will be ignored.
   btFixedConstraint.cpp
   btGearConstraint.cpp
   btGeneric6DofConstraint.cpp
@@ -23,7 +23,7 @@ ConstraintSolver\btGeneric6DofSpring2Constraint.cpp(786): warning C4244: 'initia
   btTypedConstraint.cpp
   btUniversalConstraint.cpp
   btDiscreteDynamicsWorld.cpp
-C:\GitHub\Programing\tkEngine\bulletPhysics\src\BulletDynamics\../BulletDynamics/ConstraintSolver/btContactConstraint.h(25): warning C4359: 'btContactConstraint': Alignment specifier is less than actual alignment (128), and will be ignored.
+C:\GitHub\GamePG_1\Babanuki\tkEngine\bulletPhysics\src\BulletDynamics\../BulletDynamics/ConstraintSolver/btContactConstraint.h(25): warning C4359: 'btContactConstraint': Alignment specifier is less than actual alignment (128), and will be ignored.
   btRigidBody.cpp
   btSimpleDynamicsWorld.cpp
   Generating Code...
@@ -40,7 +40,7 @@ Featherstone\btMultiBodyJointLimitConstraint.cpp(114): warning C4244: 'initializ
   btLemkeAlgorithm.cpp
   btMLCPSolver.cpp
   btRaycastVehicle.cpp
-C:\GitHub\Programing\tkEngine\bulletPhysics\src\BulletDynamics\../BulletDynamics/ConstraintSolver/btContactConstraint.h(25): warning C4359: 'btContactConstraint': Alignment specifier is less than actual alignment (128), and will be ignored.
+C:\GitHub\GamePG_1\Babanuki\tkEngine\bulletPhysics\src\BulletDynamics\../BulletDynamics/ConstraintSolver/btContactConstraint.h(25): warning C4359: 'btContactConstraint': Alignment specifier is less than actual alignment (128), and will be ignored.
   btWheelInfo.cpp
   Generating Code...
-  BulletDynamics.vcxproj -> C:\GitHub\Programing\UnityChanDemo\x64\Release\BulletDynamics.lib
+  BulletDynamics.vcxproj -> C:\GitHub\GamePG_1\Babanuki\Game\x64\Release\BulletDynamics.lib

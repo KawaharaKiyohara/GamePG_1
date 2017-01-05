@@ -2,6 +2,7 @@
 
 #include "Common/CardDeck.h"
 #include "Player.h"
+#include "tkEngine/Sound/tkSoundSource.h"
 
 /*!
  *@brief	ゲームシーン。
@@ -55,18 +56,20 @@ private:
 private:
 	//初期化ステータス
 	enum EnInitState{
-		enInitState_ReqFadeIn,		//!<フェードインのリクエストを投げる。
-		enInitState_WaitFadeIn,		//!<フェードイン待ち。
+		enInitState_Init00,			//!<初期化ステップ00。
+		enInitState_WaitInit,
+		
 	};
 	enum EnGameStep {
 		enGameStep_DealCards,		//!<カードを配る。
+		enGameStep_WaitFadeIn,		//!<フェードイン待ち。
 		enGameStep_SelectPlayer,	//!<プレイヤーがカードを選択中。
 		enGameStep_SelectCom,		//!<COMがカードを選択中。
 		enGameStep_Over,			//!<終わり。
 		enGameStep_WaitFadeOut,		//!<フェードアウト待ち。
 	};
 	static const int NUM_PLAYER = 2;
-	EnInitState m_initState = enInitState_ReqFadeIn;
+	EnInitState m_initState = enInitState_Init00;
 	CardDeck cardDeck;				//!<カードデッキ。
 	CCamera camera;					//!<カメラ。
 	CLight  light;					//!<ライト。
@@ -74,6 +77,7 @@ private:
 	CTexture*	textureBG;				//!<背景のテクスチャ。
 	CSprite		spriteBG;				//!<背景のスプライト。
 	EnGameStep gameStep = enGameStep_DealCards;
+	CSoundSource bgm;					//!<BGM
 };
 
 extern GameScene* g_gameScene;

@@ -21,6 +21,10 @@ public:
 	*@return	未使用カードが存在しなくなったらNULLを返します。
 	*/
 	Card* GetUnuseCardRandom();
+	/*
+	*@brief 初期化が終わったか判定。
+	*/
+	bool IsInited() const;
 private:
 	static const int NUM_CARD = 53;		//!<トランプの数。
 	int		numUnuseCard = NUM_CARD;	//!<未使用カードの数。

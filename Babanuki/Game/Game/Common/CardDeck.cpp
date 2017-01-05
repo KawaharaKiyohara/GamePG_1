@@ -17,6 +17,20 @@ CardDeck::~CardDeck()
 	}
 }
 /*
+*@brief 初期化が終わったか判定。
+*/
+bool CardDeck::IsInited() const
+{
+	for (auto& card : cardList) {
+		if (!card || !card->IsStart()) {
+			//終わっていない。
+			return false;
+		}
+	}
+	//終わり。
+	return true;
+}
+/*
 *@brief 未使用カードをランダムに取得。
 *@return	未使用カードが存在しなくなったらNULLを返します。
 */

@@ -15,4 +15,4 @@ btSoftBodyHelpers.cpp(573): warning C4244: '=': conversion from '__int64' to 'in
   btSoftRigidDynamicsWorld.cpp
   btSoftSoftCollisionAlgorithm.cpp
   Generating Code...
-  BulletSoftBody.vcxproj -> C:\GitHub\Programing\UnityChanDemo\x64\Release\BulletSoftBody.lib
+  BulletSoftBody.vcxproj -> C:\GitHub\GamePG_1\Babanuki\Game\x64\Release\BulletSoftBody.lib

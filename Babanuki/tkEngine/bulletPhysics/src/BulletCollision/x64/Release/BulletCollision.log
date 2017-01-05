@@ -103,4 +103,4 @@
   btSubSimplexConvexCast.cpp
   btVoronoiSimplexSolver.cpp
   Generating Code...
-  BulletCollision.vcxproj -> C:\GitHub\Programing\UnityChanDemo\x64\Release\BulletCollision.lib
+  BulletCollision.vcxproj -> C:\GitHub\GamePG_1\Babanuki\Game\x64\Release\BulletCollision.lib

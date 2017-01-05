@@ -14,4 +14,4 @@ btVector3.cpp(564): warning C4267: '=': conversion from 'size_t' to 'long', poss
 btVector3.cpp(569): warning C4267: '-=': conversion from 'size_t' to 'unsigned long', possible loss of data
 btVector3.cpp(815): warning C4267: '=': conversion from 'size_t' to 'long', possible loss of data
   Generating Code...
-  LinearMath.vcxproj -> C:\GitHub\Programing\UnityChanDemo\x64\Release\LinearMath.lib
+  LinearMath.vcxproj -> C:\GitHub\GamePG_1\Babanuki\Game\x64\Release\LinearMath.lib
