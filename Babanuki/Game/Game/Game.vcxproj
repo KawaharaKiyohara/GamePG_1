@@ -162,6 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CardSelectPerfomance.cpp" />
     <ClCompile Include="Common\Card.cpp" />
     <ClCompile Include="Common\CardDeck.cpp" />
     <ClCompile Include="ICardSelect.cpp" />
@@ -178,6 +179,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CardSelectPerfomance.h" />
     <ClInclude Include="Common\Card.h" />
     <ClInclude Include="Common\CardConst.h" />
     <ClInclude Include="Common\CardDeck.h" />

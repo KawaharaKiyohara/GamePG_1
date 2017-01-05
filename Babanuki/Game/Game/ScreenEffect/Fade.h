@@ -51,10 +51,12 @@ public:
 	*/
 	void StartFadeIn()
 	{
-		m_timer = 0.0f;
-		SetActiveFlag(true);
-		m_isExecute = true;
-		m_state = eFadeIn;
+		if (m_sprite.GetAlpha() > 0.0f) {
+			m_timer = 0.0f;
+			SetActiveFlag(true);
+			m_isExecute = true;
+			m_state = eFadeIn;
+		}
 	}
 private:
 	//ó‘ÔB

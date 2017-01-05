@@ -37,6 +37,7 @@ public:
 private:
 	//状態。
 	enum EState {
+		eStateWaitFadeIn,	//!<フェードイン待ち。
 		eStateRun,			//!<実行中。
 		eStateWaitFadeOut,	//!<フェードアウト待ち。
 	};

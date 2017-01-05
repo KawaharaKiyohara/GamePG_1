@@ -31,7 +31,9 @@ bool GameScene::Start()
 		camera.Update();
 		g_fade->StartFadeIn();
 		AddGO(0, &cardDeck);
-
+		textureBG = TextureResources().Load("Assets/sprite/BG.jpg");
+		spriteBG.Init(textureBG);
+		spriteBG.SetSize({1280, 720});
 		m_initState = enInitState_WaitFadeIn;
 		
 		break;
@@ -87,6 +89,8 @@ void GameScene::Update()
 	}break;
 	case enGameStep_SelectPlayer:
 		if (playerList[0].GetState() == Player::enStateIdle) {
+			playerList[0].UpdateCardPosition();
+			playerList[1].UpdateCardPosition();
 			//プレイヤー選択終わり。
 			if (Judgement()) {
 				//決着がついた。
@@ -102,6 +106,8 @@ void GameScene::Update()
 	case enGameStep_SelectCom:
 		if (playerList[1].GetState() == Player::enStateIdle) {
 			//COM選択終わり。
+			playerList[0].UpdateCardPosition();
+			playerList[1].UpdateCardPosition();
 			if (Judgement()) {
 				//決着がついた。
 				gameStep = enGameStep_Over;
@@ -115,9 +121,21 @@ void GameScene::Update()
 		break;
 	case enGameStep_Over:
 		MessageBox(NULL, "結果", "おわり", MB_OK);
-		//タイトルに戻る。
-		DeleteGO(this);
-		NewGO<TitleScene>(0);
+		g_fade->StartFadeOut();
+		gameStep = enGameStep_WaitFadeOut;
+		break;
+	case enGameStep_WaitFadeOut:
+		if (!g_fade->IsExecute()) {
+			//タイトルに戻る。
+			DeleteGO(this);
+			NewGO<TitleScene>(0);
+		}
 		break;
 	}
+}
+void GameScene::Render(CRenderContext& rc)
+{
+	rc.SetRenderState(RS_ZWRITEENABLE, FALSE);
+	spriteBG.Draw(rc);
+	rc.SetRenderState(RS_ZWRITEENABLE, TRUE);
 }

@@ -15,11 +15,17 @@ bool TitleScene::Start()
 {
 	m_titleBGTexture.Load("Assets/sprite/titleBG.png");
 	m_titleBGSprite.Init(&m_titleBGTexture);
+	g_fade->StartFadeIn();
 	return true;
 }
 void TitleScene::Update()
 {
 	switch (m_state) {
+	case eStateWaitFadeIn:
+		if (!g_fade->IsExecute()) {
+			m_state = eStateRun;
+		}
+		break;
 	case eStateRun:
 		if (Pad(0).IsPress(enButtonStart)) {
 			g_fade->StartFadeOut();

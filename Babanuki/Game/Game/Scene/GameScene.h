@@ -31,6 +31,7 @@ public:
 	 *@brief	更新関数。
 	 */
 	void Update() override;
+	void Render(CRenderContext& rc);
 	void OnDestroy() override;
 	/*!
 	*@brief	カメラを取得。
@@ -62,6 +63,7 @@ private:
 		enGameStep_SelectPlayer,	//!<プレイヤーがカードを選択中。
 		enGameStep_SelectCom,		//!<COMがカードを選択中。
 		enGameStep_Over,			//!<終わり。
+		enGameStep_WaitFadeOut,		//!<フェードアウト待ち。
 	};
 	static const int NUM_PLAYER = 2;
 	EnInitState m_initState = enInitState_ReqFadeIn;
@@ -69,6 +71,8 @@ private:
 	CCamera camera;					//!<カメラ。
 	CLight  light;					//!<ライト。
 	Player  playerList[NUM_PLAYER];		//!<プレイヤーのリスト
+	CTexture*	textureBG;				//!<背景のテクスチャ。
+	CSprite		spriteBG;				//!<背景のスプライト。
 	EnGameStep gameStep = enGameStep_DealCards;
 };
 

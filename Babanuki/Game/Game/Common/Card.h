@@ -28,6 +28,13 @@ public:
 		return size;
 	}
 	/*!
+	* @brief	座標の取得。
+	*/
+	const CVector3& GetPosition() const
+	{
+		return position;
+	}
+	/*!
 	* @brief	座標の設定。
 	*/
 	void SetPosition(const CVector3& position)

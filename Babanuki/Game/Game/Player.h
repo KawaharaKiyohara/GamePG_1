@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "CardSelectPerfomance.h"
+
 class Card;
 class ICardSelect;
 
@@ -59,16 +61,16 @@ public:
 	{
 		return cardList;
 	}
-	
+	/*!
+	* @brief	カードの座標を更新。
+	*/
+	void UpdateCardPosition();
 private:
 	/*!
 	* @brief	重複カードをリストから除去。
 	*/
 	void EraseMultipyCardFromList();
-	/*!
-	* @brief	カードの座標を更新。
-	*/
-	void UpdateCardPosition();
+	
 private:
 	
 	std::vector<Card*>		cardList;				//!<配られたカードのリスト。
@@ -76,4 +78,5 @@ private:
 	EnState					state = enStateIdle;	//!<ステート。
 	Player*					targetPlayer;			//!<カードを引くプレイヤー。
 	ICardSelect*			selectCard = NULL;
+	CardSelectPerfomance	cardSelectPerfomance;	//!<カード選択パフォーマンス。
 };

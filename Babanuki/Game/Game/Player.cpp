@@ -110,14 +110,30 @@ void Player::EraseMultipyCardFromList()
 }
 void Player::Update()
 {
-	UpdateCardPosition();
+	
 	switch (state) {
 	case enStateIdle:
 		break;
 	case enStateSelectCard:
 		if (selectCard->IsDecide()) {
 			//決定。
-			//カード選択演出が実装できたらそちらに移動するが、今はすぐに終わる。
+			AddGO(0, &cardSelectPerfomance);
+			int selectCardNo = selectCard->GetSelectCardNo();
+			std::vector<Card*>& targetCardList = targetPlayer->GetCardList();
+			Card* multiplyCard = NULL;
+			for (Card* card : cardList) {
+				if (card->GetNo() == targetCardList[selectCardNo]->GetNo()) {
+					//重複カードが見つかった。
+					multiplyCard = card;
+					break;
+				}
+			}
+			cardSelectPerfomance.Init(playerNo, targetCardList[selectCardNo], multiplyCard);
+			state = enStateSelectPerformance;
+		}
+		break;
+	case enStateSelectPerformance:
+		if (cardSelectPerfomance.IsEnd()) {
 			int selectCardNo = selectCard->GetSelectCardNo();
 			//まず選択したカードをプレイヤーの手札に挿入する。
 			std::vector<Card*>& targetCardList = targetPlayer->GetCardList();
@@ -127,10 +143,9 @@ void Player::Update()
 			targetCardList.erase(std::find(targetCardList.begin(), targetCardList.end(), card));
 			//重複カードを除去。
 			EraseMultipyCardFromList();
+			UpdateCardPosition();
 			state = enStateIdle;
 		}
-		break;
-	case enStateSelectPerformance:
 		break;
 	}
 }
