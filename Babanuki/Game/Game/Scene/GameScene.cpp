@@ -65,7 +65,7 @@ void GameScene::Update()
 	switch (gameStep) {
 	case enGameStep_DealCards: {
 		AddGO(0, &bgm);
-		bgm.InitStreaming("Assets/sound/bgm.wav");
+		bgm.Init("Assets/sound/bgm.wav");
 		bgm.Play(true);
 		//カードを配る。
 		int numPlayerNo = 0;
