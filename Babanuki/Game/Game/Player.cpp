@@ -106,7 +106,7 @@ void Player::EraseMultipyCardFromList()
 		}
 	}
 	//重複なしのカードリストをコピー。
-	cardList = newCardList;
+	cardList = std::move(newCardList);
 }
 void Player::Update()
 {
