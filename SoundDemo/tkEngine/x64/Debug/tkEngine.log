@@ -1,7 +1,0 @@
-﻿  tkSkinModelData.cpp
-d3d9.lib(d3d9.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3dx9.lib(d3dx9_43.dll); second definition ignored
-d3d9.lib(d3d9.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-XInput.lib(XINPUT1_3.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3dx9.lib(d3dx9_43.dll); second definition ignored
-XInput.lib(XINPUT1_3.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-tkGameObject.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-  tkEngine.vcxproj -> C:\GitHub\GamePG_1\Babanuki\Game\x64\Debug\tkEngine.lib
