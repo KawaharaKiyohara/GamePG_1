@@ -13,6 +13,7 @@ GameScene::GameScene()
 }
 GameScene::~GameScene()
 {
+	//HandsOn-3 BGMの再生を止める。
 }
 void GameScene::OnDestroy()
 {
@@ -20,7 +21,6 @@ void GameScene::OnDestroy()
 	for (int i = 0; i < NUM_PLAYER; i++) {
 		DeleteGO(&playerList[i]);
 	}
-	DeleteGO(&bgm);
 }
 bool GameScene::Start()
 {
@@ -66,9 +66,8 @@ void GameScene::Update()
 {
 	switch (gameStep) {
 	case enGameStep_DealCards: {
-		AddGO(0, &bgm);
-		bgm.Init("Assets/sound/bgm.wav");
-		bgm.Play(true);
+		//HandsOn-2 BGMの再生を開始するためにCSoundSourceのインスタンスを生成する。
+		
 		//カードを配る。
 		int numPlayerNo = 0;
 		while (true) {

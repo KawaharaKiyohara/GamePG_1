@@ -77,7 +77,7 @@ private:
 	CTexture*	textureBG;				//!<背景のテクスチャ。
 	CSprite		spriteBG;				//!<背景のスプライト。
 	EnGameStep gameStep = enGameStep_DealCards;
-	CSoundSource bgm;					//!<BGM
+	// HansOn-1 BGMを再生するためのCSoundSourceのメンバ変数を追加。
 };
 
 extern GameScene* g_gameScene;

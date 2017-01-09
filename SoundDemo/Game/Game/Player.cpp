@@ -117,9 +117,7 @@ void Player::Update()
 		break;
 	case enStateSelectCard:
 		if (selectCard->IsDecide()) {
-			CSoundSource* enterSE = NewGO<CSoundSource>(0);
-			enterSE->Init("Assets/sound/enter.wav");
-			enterSE->Play(false);
+			//HandsOn-4 カード決定音の再生
 			//決定。
 			AddGO(0, &cardSelectPerfomance);
 			int selectCardNo = selectCard->GetSelectCardNo();
