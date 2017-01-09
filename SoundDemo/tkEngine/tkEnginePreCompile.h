@@ -16,6 +16,28 @@
  */
 #define TK_PLATFORM_DX9
 
+#define BUILD_LEVEL_DEBUG		0		//デバッグビルド
+#define BUILD_LEVEL_PREVIEW		1		//プレビュービルド
+#define BUILD_LEVEL_MASTER		2		//マスタービルド。
+
+ /*!
+ * @brief	ビルドレベル。
+ * @details
+ *  BUILD_LEVELはBUILD_LEVEL_DEBUG、BUILD_LEVEL_PREVIEW、BUILD_LEVEL_MASTER</br>
+ *	の３つの値をとります。この３つの値は下記の意味を持ちます。
+ *		BUILD_LEVEL_DEBUG		完全なデバッグビルド。
+ *		BUILD_LEVEL_PREVIEW		コードは最適化されているが、デバッグ機能は残っている。
+ *		BUILD_LEVEL_MASTER		マスタービルド。デバッグ機能は完全に削除されている。
+ * デバッグコードを埋め込む時は、BUILD_LEVEL_MASTERでは無効になるように実装してください。
+ */
+#ifdef _DEBUG
+#define BUILD_LEVEL		BUILD_LEVEL_DEBUG
+#elif defined(TK_MASTER)
+#define BUILD_LEVEL		BUILD_LEVEL_MASTER
+#else
+#define BUILD_LEVEL		BUILD_LEVEL_PREVIEW
+#endif
+
 #if defined( TK_PLATFORM_DX9 )
 #include <windows.h>
 #include <mmsystem.h>
@@ -27,6 +49,7 @@
 #include <xaudio2.h>
 #include <x3daudio.h>
 #include <xaudio2fx.h>
+#pragma comment(lib, "X3DAudio.lib")
 #pragma comment(lib, "winmm.lib")
 #ifdef _DEBUG
 #include <DxErr.h>
@@ -36,6 +59,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <string>
 #include "btBulletDynamicsCommon.h"
 #include "BulletCollision\CollisionDispatch\btGhostObject.h"
 #include "tkEngine/typedef.h"
@@ -57,6 +81,7 @@
 #include "tkEngine/graphics/tkPIXPerfTag.h"
 #include "tkEngine/timer/tkGameTime.h"
 #include "tkEngine/graphics/sprite/tkSprite.h"
-
+#include "tkEngine/math/tkAabb.h"
+#include "tkEngine/Resource/tkTextureResources.h"
 
 // TODO: reference additional headers your program requires here

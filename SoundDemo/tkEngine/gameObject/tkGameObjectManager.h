@@ -74,10 +74,20 @@ namespace tkEngine{
 		*/
 		void AddGameObject(GameObjectPrio prio, IGameObject* go, const char* objectName = nullptr)
 		{
-			go->Awake();
-			unsigned int hash = MakeGameObjectNameKey(objectName);
-			m_gameObjectListArray.at(prio).push_back(go);
-			go->m_isRegist = true;
+			if (!go->m_isRegist) {
+				go->Awake();
+				unsigned int hash = MakeGameObjectNameKey(objectName);
+				m_gameObjectListArray.at(prio).push_back(go);
+				go->m_isRegist = true;
+				go->m_priority = prio;
+				go->m_isStart = false;
+				if (go->m_isDead) {
+					//死亡フラグが立っている。
+					//削除リストに入っていたらそこから除去する。
+					go->m_isDead = false;
+				}
+				
+			}
 		}
 		/*!
 		 *@brief	ゲームオブジェクトのnew
@@ -96,6 +106,7 @@ namespace tkEngine{
 			unsigned int hash = MakeGameObjectNameKey(objectName);
 			m_gameObjectListArray.at(prio).push_back(newObject);
 			newObject->m_isRegist = true;
+			newObject->m_priority = prio;
 			return newObject;
 		}
 		/*!
@@ -107,7 +118,8 @@ namespace tkEngine{
 				gameObject->SetDeadMark();
 				gameObject->OnDestroy();
 				gameObject->m_isRegist = false;
-				m_deleteObjectArray.at(gameObject->GetPriority()).push_back(gameObject);
+				gameObject->m_isRegistDeadList = true;
+				m_deleteObjectArray[m_currentDeleteObjectBufferNo].at(gameObject->GetPriority()).push_back(gameObject);
 			}
 		}
 	private:
@@ -117,9 +129,10 @@ namespace tkEngine{
 		void ExecuteDeleteGameObjects();
 	private:
 		typedef std::list<IGameObject*>	GameObjectList;
-		std::vector<GameObjectList>	m_gameObjectListArray;	//!<ゲームオブジェクトの優先度付きリスト。
-		std::vector<GameObjectList>	m_deleteObjectArray;	//!<削除するオブジェクトのリスト。
-		GameObjectPrio				m_gameObjectPriorityMax;		//!<ゲームオブジェクトの優先度の最大数。
+		std::vector<GameObjectList>	m_gameObjectListArray;		//!<ゲームオブジェクトの優先度付きリスト。
+		std::vector<GameObjectList>	m_deleteObjectArray[2];		//!<削除するオブジェクトのリスト。削除処理を行っている最中にDeleteGameObjectが呼ばれる可能性が高いので、ダブルバッファ化。
+		GameObjectPrio				m_gameObjectPriorityMax;	//!<ゲームオブジェクトの優先度の最大数。
+		int m_currentDeleteObjectBufferNo = 0;					//!<現在の削除オブジェクトのバッファ番号。
 		static const unsigned char 			GAME_OBJECT_PRIO_MAX = 255;		//!<ゲームオブジェクトの優先度の最大値。
 	};
 

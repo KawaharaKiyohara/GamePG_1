@@ -1,6 +1,9 @@
 #include "stdafx.h"
-#include "SoundDemo.h"
+#include "Scene/TitleScene.h"
+#include "ScreenEffect/Fade.h"
 
+Fade* g_fade = nullptr;
+CRandom g_random;
 /*!
  * @brief	tkEngineの初期化。
  */
@@ -21,7 +24,7 @@ void InitTkEngine( HINSTANCE hInst )
 	initParam.frameBufferHeight = 720;
 	initParam.frameBufferWidth = 1280;
 	//Bloom
-	initParam.graphicsConfig.bloomConfig.isEnable = true;
+	initParam.graphicsConfig.bloomConfig.isEnable = false;
 	initParam.graphicsConfig.edgeRenderConfig.isEnable = false;
 	initParam.graphicsConfig.edgeRenderConfig.idMapWidth = initParam.frameBufferWidth;
 	initParam.graphicsConfig.edgeRenderConfig.idMapHeight = initParam.frameBufferHeight;
@@ -37,9 +40,11 @@ void InitTkEngine( HINSTANCE hInst )
 	initParam.graphicsConfig.reflectionMapConfig.reflectionMapWidth = 512;
 	initParam.graphicsConfig.reflectionMapConfig.reflectionMapHeight = 512;
 	//DOF
-	initParam.graphicsConfig.dofConfig.isEnable = true;
+	initParam.graphicsConfig.dofConfig.isEnable = false;
 	//AA
-	initParam.graphicsConfig.aaConfig.isEnable = true;
+	initParam.graphicsConfig.aaConfig.isEnable = false;
+	//乱数初期化。
+	g_random.Init((unsigned long)time(NULL));
 
 	Engine().Init(initParam);	//初期化。
 	
@@ -57,7 +62,12 @@ int WINAPI wWinMain(
 {
 	//tkEngineの初期化。
 	InitTkEngine( hInst );
-	NewGO<SoundDemo>(0);
+
+	//常駐オブジェクト。
+	g_fade = NewGO<Fade>(1);
+	//タイトルシーンの作成。
+	NewGO<TitleScene>(0);
+	
 	Engine().RunGameLoop();		//ゲームループを実行。
 
 	return 0;

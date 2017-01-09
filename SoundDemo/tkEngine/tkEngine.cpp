@@ -10,9 +10,10 @@
 #include "tkEngine/timer/tkStopwatch.h"
 
 
-#ifdef _DEBUG
+#if BUILD_LEVEL != BUILD_LEVEL_MASTER
 #define USE_DISP_FPS
 #endif
+
 namespace tkEngine{
 	LRESULT CALLBACK CEngine::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
@@ -24,7 +25,6 @@ namespace tkEngine{
 			tkEngine::KeyInput().OnMouseLButtonUp(x, y);
 		}break;
 		case WM_DESTROY:
-			Instance().Final();
 			PostQuitMessage(0);
 			return 0;
 		}
@@ -71,6 +71,7 @@ namespace tkEngine{
 
 	    D3DPRESENT_PARAMETERS d3dpp;
 	    ZeroMemory( &d3dpp, sizeof( d3dpp ) );
+		
     	d3dpp.Windowed = TRUE;
 	    d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	    d3dpp.BackBufferFormat = D3DFMT_A8R8G8B8;
@@ -80,16 +81,23 @@ namespace tkEngine{
 		d3dpp.BackBufferHeight = initParam.frameBufferHeight;
 		d3dpp.MultiSampleType = D3DMULTISAMPLE_NONE;
 		d3dpp.MultiSampleQuality = 0;
+		d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
 		m_frameBufferWidth = initParam.frameBufferWidth;
 		m_frameBufferHeight = initParam.frameBufferHeight;
 
     	// Create the D3DDevice
 	    if( FAILED( m_pD3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hWnd,
-	                                      D3DCREATE_HARDWARE_VERTEXPROCESSING,
+	                                      D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED,
 	                                      &d3dpp, &m_pD3DDevice ) ) )
 	    {
 	        return false;
 	    }
+		if(FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hWnd,
+			D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED,
+			&d3dpp, &m_pD3DDeviceLoading)))
+		{
+			return false;
+		}
 		//バックバッファのレンダリングターゲットと深度ステンシルバッファを取得しておいて覚えておく。
 		LPDIRECT3DSURFACE9 rt, depth;
 		m_pD3DDevice->GetRenderTarget(0, &rt);
@@ -111,6 +119,8 @@ namespace tkEngine{
 		if (!InitDirectX(initParam)) {
 			return false;
 		}
+		//常駐エフェクトのロード。
+		m_effectManager.LoadCommonEffect();
 		//メインレンダリングターゲットを作成。
 		for (int i = 0; i < 2; i++) {
 			m_mainRenderTarget[i].Create(
@@ -211,6 +221,7 @@ namespace tkEngine{
 	void CEngine::RunGameLoop()
 	{
 		// Enter the message loop
+		
 		MSG msg;
 		ZeroMemory(&msg, sizeof(msg));
 #ifdef USE_DISP_FPS
@@ -224,25 +235,22 @@ namespace tkEngine{
 				DispatchMessage(&msg);
 			}
 			else {
-#ifdef USE_DISP_FPS
 				CStopwatch sw;
 				sw.Start();
-#endif
-				GameTime().Update();
-				//キー入力を更新。
+				EffectManager().Update();	
 				m_keyInput.Update();
-
 				m_skinModelDataResources.Update();
-
 				m_physicsWorld.Update();
-
+				m_soundEngine.Update();
+				
 				CRenderContext& topRenderContext = m_renderContextArray[0];
 				CRenderContext& lastRenderContext = m_renderContextArray[m_numRenderContext - 1];
 
 				topRenderContext.SetRenderTarget(0, &m_mainRenderTarget[m_currentMainRenderTarget]);
 				//topRenderContext.SetRenderTarget(0, &m_backBufferRT);
 				topRenderContext.SetRenderTarget(1, NULL);
-				
+				topRenderContext.SetRenderTarget(2, NULL);
+
 				CGameObjectManager& goMgr = CGameObjectManager::Instance();
 				goMgr.Execute(
 					m_renderContextArray.get(), 
@@ -251,28 +259,44 @@ namespace tkEngine{
 					m_preRender,
 					m_postEffect
 				);
+
+				
 				lastRenderContext.SetRenderTarget(0, &m_backBufferRT);
 				lastRenderContext.Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
 					D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0
-				);
+					);
 				CopyMainRenderTargetToBackBuffer(lastRenderContext);
 
 				m_pD3DDevice->BeginScene();
 				//レンダリングコマンドのサブミット
-				for( int i = 0; i < m_numRenderContext; i++ ){
+				for (int i = 0; i < m_numRenderContext; i++) {
 					m_renderContextArray[i].SubmitCommandBuffer();
 				}
-				// 描画
 
+				//モーションブラーの更新。
+				//1フレーム前のカメラを更新するので、全ての描画が完了したところで更新する。
+				MotionBlur().Update();
 #ifdef USE_DISP_FPS
 				m_fpsFont.Draw(text, 0, 0);
 #endif
+
 				m_pD3DDevice->EndScene();
 				m_pD3DDevice->Present(nullptr, nullptr, nullptr, nullptr);
 				
+				sw.Stop();
+				
+				if (sw.GetElapsed() < 1.0f / 30.0f) {
+					//30fpsに間に合っているなら眠る。
+					DWORD sleepTime = max( 0.0, (1.0 / 30.0)*1000.0 - (DWORD)sw.GetElapsedMillisecond());
+					Sleep(sleepTime);
+					GameTime().SetFrameDeltaTime(1.0f/30.0f);
+				}
+				else {
+					//間に合っていない。
+					GameTime().SetFrameDeltaTime((float)sw.GetElapsed());
+				}
 				//
 #ifdef USE_DISP_FPS
-				sw.Stop();
 				sprintf(text, "fps = %lf\n", 1.0f / sw.GetElapsed());
 #endif
 
@@ -291,7 +315,9 @@ namespace tkEngine{
 		m_effectManager.Release();
 		if (m_pD3DDevice != nullptr)
 			m_pD3DDevice->Release();
-
+		if (m_pD3DDeviceLoading != nullptr) {
+			m_pD3DDeviceLoading->Release();
+		}
 		if (m_pD3D != nullptr)
 			m_pD3D->Release();
 	}

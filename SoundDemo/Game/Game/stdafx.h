@@ -21,4 +21,8 @@
 using namespace tkEngine;
 #include "tkEngine/random/tkRandom.h"
 
+class Fade;
+extern Fade* g_fade;
+extern CRandom g_random;
+
 #endif // _STDAFX_H_

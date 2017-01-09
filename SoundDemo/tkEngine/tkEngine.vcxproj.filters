@@ -63,11 +63,17 @@
     <Filter Include="Source Files\character">
       <UniqueIdentifier>{0de922d4-3418-4774-84a2-d88020fe8447}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\HUD">
-      <UniqueIdentifier>{d314ad2d-c9dc-4816-9f2d-a5551e0eb68c}</UniqueIdentifier>
+    <Filter Include="Source Files\camera">
+      <UniqueIdentifier>{631d124d-931e-4510-8288-4e6088bc5667}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\graphics\sprite">
       <UniqueIdentifier>{5a977f00-bb44-407d-bb44-34acd9466a71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\culling">
+      <UniqueIdentifier>{78ce6223-1b70-4430-8246-365a7412eade}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\thread">
+      <UniqueIdentifier>{364841d2-6926-44a8-859b-33122fac2536}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -245,8 +251,32 @@
     <ClCompile Include="graphics\sprite\tkSprite.cpp">
       <Filter>Source Files\graphics\sprite</Filter>
     </ClCompile>
+    <ClCompile Include="camera\tkSpringCamera.cpp">
+      <Filter>Source Files\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\postEffect\tkMotionBlur.cpp">
+      <Filter>Source Files\graphics\postEffect</Filter>
+    </ClCompile>
     <ClCompile Include="Sound\tkWaveFileBank.cpp">
       <Filter>Source Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="math\tkAabb.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="culling\tkObjectFrustumCulling.cpp">
+      <Filter>Source Files\culling</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\tkCameraCollisionSolver.cpp">
+      <Filter>Source Files\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="resource\tkTextureResources.cpp">
+      <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\postEffect\tkMonochromeFilter.cpp">
+      <Filter>Source Files\graphics\postEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\postEffect\tkSepiaFilter.cpp">
+      <Filter>Source Files\graphics\postEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -457,14 +487,50 @@
     <ClInclude Include="character\tkCharacterController.h">
       <Filter>Source Files\character</Filter>
     </ClInclude>
-    <ClInclude Include="character\tkCollisionAttr.h">
-      <Filter>Source Files\character</Filter>
-    </ClInclude>
     <ClInclude Include="graphics\sprite\tkSprite.h">
       <Filter>Source Files\graphics\sprite</Filter>
     </ClInclude>
+    <ClInclude Include="camera\tkSpringCamera.h">
+      <Filter>Source Files\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\postEffect\tkMotionBlur.h">
+      <Filter>Source Files\graphics\postEffect</Filter>
+    </ClInclude>
     <ClInclude Include="Sound\tkWaveFileBank.h">
       <Filter>Source Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="util\tkNameKey.h">
+      <Filter>Source Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="culling\tkObjectCulling.h">
+      <Filter>Source Files\culling</Filter>
+    </ClInclude>
+    <ClInclude Include="math\tkAabb.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="culling\tkObjectFrustumCulling.h">
+      <Filter>Source Files\culling</Filter>
+    </ClInclude>
+    <ClInclude Include="thread\tkCriticalSection.h">
+      <Filter>Source Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\tkCameraCollisionSolver.h">
+      <Filter>Source Files\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\tkCollisionAttr.h">
+      <Filter>Source Files\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\tkAtmosphericScatteringParam.h">
+      <Filter>Source Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="resource\tkTextureResources.h">
+      <Filter>Source Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\postEffect\tkMonochromeFilter.h">
+      <Filter>Source Files\graphics\postEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\postEffect\tkSepiaFilter.h">
+      <Filter>Source Files\graphics\postEffect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

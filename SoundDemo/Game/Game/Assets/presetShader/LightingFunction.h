@@ -25,6 +25,7 @@ struct SLight{
 	float4  pointLightPosition;						//ポイントライトの座標。
 	float4  pointLightColor;						//ポイントライトのカラー。
 	float3  ambient;								//アンビエントライト。
+	float3  emission;								//自己発光。
 };
 SLight	g_light;		//!<ライト
 float4	g_cameraPos;	//!<カメラの座標。
@@ -77,15 +78,12 @@ float3 SpecLight(float3 normal, float3 worldPos, float2 uv)
 float3 PointLight( float3 normal, float3 worldPos, int lim )
 {
 	float3 lightDir = worldPos - g_light.pointLightPosition.xyz;
-	float len = length(lightDir);
+	float len = length(lightDir) / g_light.pointLightColor.w;
 	lightDir = normalize(lightDir);
 	float3 color = max( 0.0f, -dot(normal, lightDir)) * g_light.pointLightColor.xyz;
 	//距離に反比例して減衰
-	color /= max(1.0f, (len*len)/g_light.pointLightColor.w);
-	if(lim){
-		//ポイントライトでリムライトも計算する。
-		color += CalcLimLight(normal, lightDir, g_light.pointLightColor.xyz);
-	}
+	color /= max( 1.0f, (len*len) );
+
 	return color;
 }
 /*!

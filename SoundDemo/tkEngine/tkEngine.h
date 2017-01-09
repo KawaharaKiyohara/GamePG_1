@@ -15,9 +15,13 @@
 #include "tkEngine/graphics/tkGraphicsConfig.h"
 #include "tkEngine/particle/tkParticleResources.h"
 #include "tkEngine/resource/tkSkinModelDataResources.h"
+#include "tkEngine/resource/tkTextureResources.h"
 #include "tkEngine/Sound/tkSoundEngine.h"
 #include "tkEngine/Physics/tkPhysics.h"
 
+/*!
+* @brief	河原内製ゲームエンジン。
+*/
 namespace tkEngine{
 	class CReflectionMap;
 	/*!
@@ -183,6 +187,14 @@ namespace tkEngine{
 		{
 			return m_particleResource;
 		}
+		CMonochromeFilter& GetMonochromeFilter()
+		{
+			return m_postEffect.GetMonochromeFilter();
+		}
+		CSepiaFilter& GetSepiaFilter()
+		{
+			return m_postEffect.GetSepiaFilter();
+		}
 		/*!
 		* @brief	DOFを取得。
 		*/
@@ -191,11 +203,25 @@ namespace tkEngine{
 			return m_postEffect.GetDof();
 		}
 		/*!
+		* @brief	モーションブラーを取得。
+		*/
+		CMotionBlur& GetMotionBlur()
+		{
+			return m_postEffect.GetMotionBlur();
+		}
+		/*!
 		* @brief	スキンモデルリソースを取得。
 		*/
 		CSkinModelDataResources& GetSkinModelDataResources()
 		{
 			return m_skinModelDataResources;
+		}
+		/*!
+		* @brief	テクスチャリソースを取得。
+		*/
+		CTextureResources& GetTextureResources()
+		{
+			return m_textureResources;
 		}
 		/*!
 		* @brief	サウンドエンジンの取得。
@@ -211,6 +237,7 @@ namespace tkEngine{
 		{
 			return m_physicsWorld;
 		}
+		
 	private:
 		/*!
 		* @brief	メインレンダリングターゲットの内容をバックバッファにコピー。
@@ -240,6 +267,7 @@ namespace tkEngine{
 		HWND									m_hWnd;						//!<ウィンドウハンドル。
 		LPDIRECT3D9								m_pD3D;						//!<D3DDevice
 		LPDIRECT3DDEVICE9						m_pD3DDevice;				//!<Rendering device
+		LPDIRECT3DDEVICE9						m_pD3DDeviceLoading;		//!<ローディング画面で使用するRenderingDevice
 		std::unique_ptr<CRenderContext[]>		m_renderContextArray;		//!<レンダリングコンテキスト
 		int										m_numRenderContext;			//!<レンダリングコンテキストの数。
 		std::unique_ptr<SRenderContextMap[]>	m_renderContextMap;			//!<レンダリングコンテキストのマップ。
@@ -259,6 +287,7 @@ namespace tkEngine{
 		CParticleResources						m_particleResource;			//!<パーティクルのリソース管理。
 		CFont									m_fpsFont;					//!<FPSを表示するデバッグフォント。
 		CSkinModelDataResources					m_skinModelDataResources;	//!<スキンモデルデータリソース。
+		CTextureResources						m_textureResources;			//!<テクスチャリソース。
 		CSoundEngine							m_soundEngine;				//!<サウンドエンジン。
 		CPhysicsWorld							m_physicsWorld;				//!<物理ワールド。
 	};
@@ -298,9 +327,17 @@ namespace tkEngine{
 	{
 		return CEngine::Instance().GetDof();
 	}
+	static inline CMotionBlur& MotionBlur()
+	{
+		return CEngine::Instance().GetMotionBlur();
+	}
 	static inline CSkinModelDataResources& SkinModelDataResources()
 	{
 		return CEngine::Instance().GetSkinModelDataResources();
+	}
+	static inline CTextureResources& TextureResources()
+	{
+		return CEngine::Instance().GetTextureResources();
 	}
 	static inline CSoundEngine& SoundEngine()
 	{
@@ -309,6 +346,14 @@ namespace tkEngine{
 	static inline CPhysicsWorld& PhysicsWorld()
 	{
 		return CEngine::Instance().GetPhysicsWorld();
+	}
+	static inline CMonochromeFilter& MonochromeFilter()
+	{
+		return CEngine::Instance().GetMonochromeFilter();
+	}
+	static inline CSepiaFilter& SepiaFilter()
+	{
+		return CEngine::Instance().GetSepiaFilter();
 	}
 }
 

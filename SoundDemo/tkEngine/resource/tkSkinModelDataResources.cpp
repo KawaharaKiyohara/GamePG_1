@@ -12,6 +12,10 @@ namespace tkEngine{
 	 */
 	CSkinModelDataResources::CSkinModelDataResources()
 	{
+		//非同期読み込みスレッドを立てる。
+		m_asyncLoadThread = std::thread([this] {
+			this->UpdateAsyncLoadThread();
+		});
 	}
 	/*!
 	 * @brief	デストラクタ。
@@ -34,7 +38,9 @@ namespace tkEngine{
 		bool isInstancing,
 		int numInstance
 	)
-	{
+	{	
+		//ロックをかける。
+		m_cs.Lock();
 		if (isInstancing) {
 			//インスシングモデルはモデルデータの使い回しは無理。
 			CSkinModelDataPtr newSkinModelData(new CSkinModelData);
@@ -66,19 +72,40 @@ namespace tkEngine{
 				skinModelDataHandle.Init(it->second, anim, true);
 			}
 		}
+		//読み込み終了を通知する
+		skinModelDataHandle.NotifyLoadEnd();
+		m_cs.Unlock();
 	}
-	/*!
-	* @brief	更新。
-	*/
-	void CSkinModelDataResources::Update()
+	void CSkinModelDataResources::UpdateAsyncLoadThread()
 	{
+		while (true) {
+			//リクエストをキューからポップする
+			m_asyncLoadReqeustQueueCS.Lock();
+			if (m_asyncLoadRequestQueue.empty()) {
+				//キューが空なのでキューのロックを解除して
+				m_asyncLoadReqeustQueueCS.Unlock();
+				//眠る
+				Sleep(10);
+			}
+			else {
+				SAsyncLoadRequest req = m_asyncLoadRequestQueue.front();
+				m_asyncLoadRequestQueue.pop();
+				m_asyncLoadReqeustQueueCS.Unlock();
+				//リクエストに従ってロードを実行する。
+				Load(*req.skindModelDataHandle, req.modelPath.c_str(), req.anim, req.isInstancing, req.numInstance );
+			}
+		}
+	}
+	void CSkinModelDataResources::GC()
+	{
+		m_cs.Lock();
 		//参照カウンタが1になっているCSkinModelDataをガベージコレクト。
 		std::vector<CSkinModelDataMap::iterator>	deleteItList;
 		for (
 			CSkinModelDataMap::iterator it = m_skinModelDataMap.begin();
 			it != m_skinModelDataMap.end();
 			it++
-		) {
+			) {
 			if (it->second.unique()) {
 				//こいつを参照しているモデルはもういない。
 				deleteItList.push_back(it);
@@ -100,5 +127,9 @@ namespace tkEngine{
 				it++;
 			}
 		}
+		m_cs.Unlock();
+	}
+	void CSkinModelDataResources::Update()
+	{
 	}
 }

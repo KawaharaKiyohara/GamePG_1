@@ -590,8 +590,13 @@ namespace tkEngine{
 			//オリジナル。
 			DeleteSkeleton(m_frameRoot);
 		}
+		if (m_animController) {
+			m_animController->Release();
+		}
 		m_instanceVertexBuffer.Release();
 		m_numInstance = 0;
+
+		m_loadThread.join();
 	}
 	
 	void CSkinModelData::DeleteSkeleton(LPD3DXFRAME frame)
@@ -669,7 +674,10 @@ namespace tkEngine{
 	}
 	void CSkinModelData::LoadModelData( const char* filePath, CAnimation* anim )
 	{	
+		m_isLoadEnd = false;
 		CAllocateHierarchy alloc(this);
+		CStopwatch sw;
+		sw.Start();
 		HRESULT hr = D3DXLoadMeshHierarchyFromX(
 			filePath,
 			D3DXMESH_VB_MANAGED,
@@ -679,7 +687,10 @@ namespace tkEngine{
 			&m_frameRoot,
 			&m_animController
 		);
-		
+		sw.Stop();
+		char _filePath[1024];
+		sprintf(_filePath, "loaded file %s, time = %lf\n", filePath, sw.GetElapsedMillisecond());
+		TK_LOG(_filePath);
 		TK_ASSERT(SUCCEEDED(hr), "Failed D3DXLoadMeshHierarchyFromX");
 		SetupBoneMatrixPointers(m_frameRoot, m_frameRoot);
 		if (anim && m_animController) {
@@ -688,8 +699,17 @@ namespace tkEngine{
 		else {
 			SAFE_RELEASE(m_animController);
 		}
+		m_isLoadEnd = true;
 	}
-	
+	void CSkinModelData::LoadModelDataAsync(const char* filePath, CAnimation* anim)
+	{
+		m_isLoadEnd = false;
+		//読み込みスレッドを立てる。
+		m_loadThread = std::thread([this, filePath, anim]{
+			this->LoadModelData(filePath, anim);
+			m_isLoadEnd = true;
+		});
+	}
 	void CSkinModelData::CloneSkeleton(LPD3DXFRAME& dstFrame, LPD3DXFRAME srcFrame)
 	{
 		//名前と行列をコピー。
@@ -703,7 +723,6 @@ namespace tkEngine{
 			dstFrame->pMeshContainer = NULL;
 		}
 		AllocateName(srcFrame->Name, &dstFrame->Name);
-	
 
 		if (srcFrame->pFrameSibling != nullptr) {
 			//兄弟がいるので、兄弟のためのメモリを確保。
@@ -746,6 +765,7 @@ namespace tkEngine{
 	}
 	void CSkinModelData::CloneModelData(const CSkinModelData& modelData, CAnimation* anim)
 	{
+		m_original = &modelData;
 		//スケルトンの複製を作成。。
 		m_isClone = true;
 		m_frameRoot = new D3DXFRAME_DERIVED;
@@ -769,6 +789,8 @@ namespace tkEngine{
 				anim->Init(m_animController);
 			}
 		}
+		//マテリアルをコピー
+		m_materials = modelData.m_materials;
 		SetupBoneMatrixPointers(m_frameRoot, m_frameRoot);
 	}
 	void CSkinModelData::UpdateBoneMatrix(const CMatrix& matWorld)

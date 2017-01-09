@@ -105,6 +105,7 @@ namespace tkEngine{
 			this->y = v.y();
 			this->z = v.z();
 		}
+		
 		/*!
 		 * @brief	ベクトルを加算。
 		 */
@@ -138,7 +139,7 @@ namespace tkEngine{
 		/*!
 		 * @brief	内積。
 		 */
-		float Dot( const CVector3& v )
+		float Dot( const CVector3& v ) const
 		{
 			return x * v.x + y * v.y + z * v.z;
 		}
@@ -251,6 +252,15 @@ namespace tkEngine{
 			Set(x, y, z, w);
 		}
 		/*!
+		*@brief	コンストラクタ
+		*@details
+		* wには1.0が格納されます。
+		*/
+		CVector4(const CVector3& v)
+		{
+			Set(v);
+		}
+		/*!
 		 *@brief	ベクトルの各要素を設定。
 		 */
 		void Set(float x, float y, float z, float w)
@@ -259,6 +269,18 @@ namespace tkEngine{
 			this->y = y;
 			this->z = z;
 			this->w = w;
+		}
+		/*!
+		*@brief	ベクトルを設定。
+		*@details
+		* wには1.0が格納されます。
+		*/
+		void Set(const CVector3& v)
+		{
+			this->x = v.x;
+			this->y = v.y;
+			this->z = v.z;
+			this->w = 1.0f;
 		}
 		/*!
 		 *@brief	ベクトルを加算。

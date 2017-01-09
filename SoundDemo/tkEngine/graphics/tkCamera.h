@@ -13,7 +13,7 @@ namespace tkEngine{
 		/*!
 		 * @brief	ビュー行列、プロジェクション行列、ビュープロジェクション行列を更新。
 		 */
-		void Update();
+		virtual void Update();
 		/*!
 		 * @brief	カメラの座標を設定。
 		 *@param[in]	pos		カメラの座標。
@@ -137,7 +137,16 @@ namespace tkEngine{
 		{
 			return m_viewAngle;
 		}
-	private:
+		/*!
+		* @brief	ワールド座標からスクリーン座標を計算する。
+		*@details
+		* 計算されるスクリーン座標は画面の中心を{0,0}、左上を{画面の幅*-0.5,画面の高さ*-0.5}</br>
+		* 右下を{画面の幅*0.5,画面の高さ*0.5}とする座標です。
+		*@param[out]	screenPos		スクリーン座標の格納先。
+		*@param[in]		worldPos		ワールド座標。
+		*/
+		void CalcScreenPositionFromWorldPosition(CVector2& screenPos, const CVector3& worldPos) const;
+	protected:
 		CVector3	m_position;							//!<カメラ位置。
 		CVector3	m_up;								//!<カメラの上方向。
 		CVector3	m_target;							//!<カメラの中止点。

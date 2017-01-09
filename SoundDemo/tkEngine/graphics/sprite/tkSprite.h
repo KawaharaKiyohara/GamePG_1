@@ -4,11 +4,11 @@
 
 #pragma once
 
-namespace tkEngine{
+namespace tkEngine {
 	/*!
 	 *@brief	スプライト表示クラス。
 	 */
-	class CSprite{
+	class CSprite {
 	public:
 		CSprite();
 		~CSprite();
@@ -29,7 +29,7 @@ namespace tkEngine{
 		* 画面の中心が0,0となります。
 		* 座標系は上方向が+y、右方向が+xになります。
 		* UnityのuGUIに準拠。
-		* 
+		*
 		*@param[in]		pos		座標。
 		*/
 		void SetPosition(const CVector2& pos)
@@ -71,17 +71,47 @@ namespace tkEngine{
 		{
 			m_pivot = pivot;
 		}
+		void SetRotation( CQuaternion rot)
+		{
+			m_rotation = rot;
+		}
+		/*!
+		*@brief	描画するUV座標の矩形を設定。
+		*@param[in]		uvRect		xはuの左座標、yはvの上座標、zはuの右座標、wはvの下座標。
+		*/
+		void SetUVRect(const CVector4& uvRect)
+		{
+			m_uvRect = uvRect;
+		}
 		/*!
 		 *@brief	描画。
 		 *@param[in]	renderContext	レンダリングコンテキスト。
 		 */
 		void Draw(CRenderContext& renderContext);
+		/*!
+		*@brief	不透明度を設定。
+		*@param[in]	alpha		不透明度。0.0で完全に透明。
+		*/
+		void SetAlpha(float alpha)
+		{
+			m_alpha = alpha;
+		}
+		/*!
+		*@brief	不透明度を取得。
+		*/
+		float GetAlpha() const
+		{
+			return m_alpha;
+		}
 	private:
 		CEffect*		m_effect = nullptr;		//!<エフェクト。
 		CPrimitive		m_primitive;			//!<プリミティブ。
 		CTexture*		m_texture = nullptr;	//<!テクスチャ。
-		CVector2		m_pos = {0.0f, 0.0f};	//!<座標。
-		CVector2		m_size = {0.0f, 0.0f};	//!<スプライトのサイズ。
-		CVector2		m_pivot = {0.5f, 0.5f};	//!<ピボット
+		CVector2		m_pos = CVector2(0.0f, 0.0f);	//!<座標。
+		CVector2		m_size = CVector2(0.0f, 0.0f);	//!<スプライトのサイズ。
+		CVector2		m_pivot = CVector2(0.5f, 0.5f);	//!<ピボット
+		CVector4		m_uvRect = CVector4(0.0f, 0.0f, 1.0f, 1.0f);	//!<UV座標。
+		CQuaternion		m_rotation = CQuaternion::Identity;
+		float			m_alpha = 1.0f;			//!<不透明度。
 	};
 }

@@ -29,7 +29,15 @@ namespace tkEngine{
 		{
 		}
 	public:
-		virtual void Start() {}
+		/*!
+		*@brief	Updateの直前で呼ばれる開始処理。
+		*@details
+		* 本関数がtrueを返すとゲームオブジェクトの準備が完了したと判断されて</br>
+		* Update関数が呼ばれ出します。trueを返して以降はStart関数は呼ばれなくなります。</br>
+		* ゲームオブジェクトの初期化に複数フレームかかる場合などはfalseを返して、初期化ステップなどを使って</br>
+		* 適切に初期化を行ってください。
+		*/
+		virtual bool Start() { return true; }
 		/*!
 		 *@brief	更新
 		 */
@@ -94,48 +102,61 @@ namespace tkEngine{
 		{
 			return m_isDead;
 		}
+		/*!
+		*@brief Start関数が完了した？
+		*/
+		virtual bool IsStart() const
+		{
+			return m_isStart;
+		}
+		void SetActiveFlag(bool flag)
+		{
+			m_isActive = flag;
+		}
 	public:
 		void PostRenderWrapper(CRenderContext& renderContext)
 		{
-			if (m_isStart && !m_isDead) {
+			if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
 				PostRender(renderContext);
 			}
 		}
 		void RenderWrapper(CRenderContext& renderContext) 
 		{
-			if (m_isStart && !m_isDead) {
+			if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
 				Render(renderContext);
 			}
 		}
 		void PreRenderWrapper(CRenderContext& renderContext)
 		{
-			if (m_isStart && !m_isDead) {
+			if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
 				PreRender(renderContext);
 			}
 		}
 		void PostUpdateWrapper()
 		{
-			if (m_isStart && !m_isDead) {
+			if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
 				PostUpdate();
 			}
 		}
 		void PreUpdateWrapper()
 		{
-			if (m_isStart && !m_isDead) {
+			if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
 				PreUpdate();
 			}
 		}
 		void UpdateWrapper()
 		{
-			if (m_isStart && !m_isDead) {
+			if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
 				Update();
 			}
 		}
 		void StartWrapper()
 		{
-			if (!m_isStart && !m_isDead) {
-				Start();
-				m_isStart = true;
+			if (m_isActive && !m_isStart && !m_isDead && !m_isRegistDeadList) {
+				if (Start()) {
+					//初期化処理完了。
+					m_isStart = true;
+				}
 			}
 		}
 		void SetMarkNewFromGameObjectManager()
@@ -152,9 +173,10 @@ namespace tkEngine{
 		GameObjectPrio	m_priority;			//!<実行優先度。
 		bool m_isStart;						//!<Startの開始フラグ。
 		bool m_isDead;						//!<死亡フラグ。
+		bool m_isRegistDeadList = false;	//!<死亡リストに積まれている。
 		bool m_isNewFromGameObjectManager;	//!<GameObjectManagerでnewされた。
 		bool m_isRegist = false;			//!<GameObjectManagerに登録されている？
-		
+		bool m_isActive = true;				//!<Activeフラグ。
 	};
 }
 #endif // _CGAMEOBJECT_H_

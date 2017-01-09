@@ -5,9 +5,10 @@
 #include "tkEngine/graphics/tkLight.h"
 #include "tkEngine/graphics/prerender/tkShadowMap.h"
 #include "tkEngine/graphics/tkSkinModelMaterial.h"
+#include "tkEngine/graphics/tkAtmosphericScatteringParam.h"
 
 namespace tkEngine{
-	
+
 	void CSkinModel::DrawMeshContainer_InstancingDrawCommon(IDirect3DDevice9* pd3dDevice, D3DXMESHCONTAINER_DERIVED* meshContainer, int materialID)
 	{
 		LPDIRECT3DVERTEXBUFFER9 vb;
@@ -72,7 +73,10 @@ namespace tkEngine{
 			
 		//テクニックを設定。
 		{
-			if (isInstancingDraw) {
+			if (m_atomosphereFunc == enAtomosphereFuncSkyFromAtomosphere) {
+				//空をレンダリング。
+				pEffect->SetTechnique(m_hShaderHandle[enShaderHandleTec_Sky]);
+			}else if (isInstancingDraw) {
 				if (pMeshContainer->pSkinInfo != NULL) {
 					if (isDrawToShadowMap) {
 						pEffect->SetTechnique(m_hShaderHandle[enShaderHandleTec_SkinModelInstancingRenderToShadowMap]);
@@ -113,8 +117,10 @@ namespace tkEngine{
 		//共通の定数レジスタを設定
 		
 		{
+			
 			//ビュープロジェクション
 			pEffect->SetMatrix(m_hShaderHandle[enShaderHandleViewProj], &viewProj);
+				pEffect->SetMatrix(m_hShaderHandle[enShaderHandleLastFrameViewProj], (D3DXMATRIX*)&MotionBlur().GetLastFrameViewProjectionMatrix());
 			//ライト
 			pEffect->SetValue(
 				m_hShaderHandle[enShaderHandleLight],
@@ -157,7 +163,27 @@ namespace tkEngine{
 				//スペキュラマップ。
 				flag[3] = true;
 			}
+
+
 			pEffect->SetValue(m_hShaderHandle[enShaderHandleFlags], flag, sizeof(flag));
+			int flag2[4] = { 0 };
+			if (m_isWriteVelocityMap) {
+				flag2[0] = 1;
+			}
+
+			if (m_atomosphereFunc != enAtomosphereFuncNone) {
+				flag2[1] = m_atomosphereFunc;	
+				//大気錯乱シミュレーションを行う。
+				if (m_atomosphereParam != nullptr) {
+					pEffect->SetValue(m_hShaderHandle[enShaderHandleAtmosParam], m_atomosphereParam, sizeof(*m_atomosphereParam));
+				}
+
+			}
+			else {
+				//大気錯乱シミュレーションは行わない。
+			}
+
+			pEffect->SetValue(m_hShaderHandle[enShaderHandleFlags2], flag2, sizeof(flag2));
 			if (isDrawToShadowMap || m_isShadowReceiver) {
 				float farNear[] = {
 					ShadowMap().GetFar(),
@@ -383,11 +409,14 @@ namespace tkEngine{
 	void CSkinModel::InitShaderConstHandle()
 	{
 		ID3DXEffect* effectDx = m_pEffect->GetD3DXEffect();
+		m_hShaderHandle[enShaderHandleLastFrameViewProj] = effectDx->GetParameterByName(NULL, "g_mViewProjLastFrame");
+		m_hShaderHandle[enShaderHandleAtmosParam]	= effectDx->GetParameterByName(NULL, "g_atmosParam");
 		m_hShaderHandle[enShaderHandleViewProj] 	= effectDx->GetParameterByName(NULL, "g_mViewProj");
 		m_hShaderHandle[enShaderHandleLight] 		= effectDx->GetParameterByName(NULL, "g_light");
 		m_hShaderHandle[enShaderHandleLVP] 			= effectDx->GetParameterByName(NULL, "g_mLVP");
 		m_hShaderHandle[enShaderHandleCameraPos] 	= effectDx->GetParameterByName(NULL, "g_cameraPos");
 		m_hShaderHandle[enShaderHandleFlags] 		= effectDx->GetParameterByName(NULL, "g_flags");
+		m_hShaderHandle[enShaderHandleFlags2]		= effectDx->GetParameterByName(NULL, "g_flags2");
 		m_hShaderHandle[enShaderHandleFarNear] 		= effectDx->GetParameterByName(NULL, "g_farNear");
 		m_hShaderHandle[enShaderHandleFogParam] 	= effectDx->GetParameterByName(NULL, "g_fogParam");
 		m_hShaderHandle[enShaderHandleWorldMatrixArray] 	= effectDx->GetParameterByName(NULL, "g_mWorldMatrixArray");
@@ -412,6 +441,7 @@ namespace tkEngine{
 		m_hShaderHandle[enShaderHandleTec_NoSkinModelRenderShadowMap] = effectDx->GetTechniqueByName("NoSkinModelRenderShadowMap");
 		m_hShaderHandle[enShaderHandleTec_NoSkinModel] = effectDx->GetTechniqueByName("NoSkinModel");
 		m_hShaderHandle[enShaderHandleShadowRecieverParam] = effectDx->GetParameterByName(NULL, "gShadowReceiverParam");
+		m_hShaderHandle[enShaderHandleTec_Sky] = effectDx->GetTechniqueByName("Sky");
 	}
 	/*!
 	*@brief	シャドウマップに描画
@@ -429,6 +459,10 @@ namespace tkEngine{
 	{
 		if (m_skinModelData) {
 			CPIXPerfTag tag(renderContext, L"CSkinModel::Draw");
+			if (m_pEffect->IsReloadTrigger()) {
+				//リロードが発生している。
+				InitShaderConstHandle();
+			}
 			renderContext.DrawSkinModel(this, viewMatrix, projMatrix);
 		}
 	}
