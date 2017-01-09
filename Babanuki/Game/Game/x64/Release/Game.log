@@ -1,4 +1,0 @@
-﻿  Player.cpp
-LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
-  LINK : /LTCG specified but no code generation required; remove /LTCG from the link command line to improve linker performance
-  Game.vcxproj -> C:\GitHub\GamePG_1\Babanuki\Game\x64\Release\Game.exe
