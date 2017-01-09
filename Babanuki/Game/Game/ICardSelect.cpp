@@ -44,12 +44,14 @@ void CardSelectPlayer::UpdateSelectCard()
 	std::vector<Card*>& cardList = targetPlayer->GetCardList();
 	
 	if (Pad(0).IsTrigger(enButtonLeft)) {
+		//HandsOn-3 カード選択SEの再生。
 		CSoundSource* se = NewGO<CSoundSource>(0);
 		se->Init("Assets/sound/select.wav");
 		se->Play(false);
 		selectCardNo = max(0, selectCardNo - 1);
 	}
 	else if (Pad(0).IsTrigger(enButtonRight)) {
+		//HandsOn-3 カード選択SEの再生。
 		CSoundSource* se = NewGO<CSoundSource>(0);
 		se->Init("Assets/sound/select.wav");
 		se->Play(false);
